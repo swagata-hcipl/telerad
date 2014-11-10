@@ -1,4 +1,5 @@
 <?php
+session_start();
 $conn = new mysqli('localhost','root','root','teleraddb');
 if ($conn->connect_error) {
 	die("Connection failed: " . $conn->connect_error);
@@ -21,7 +22,7 @@ else {
 $sql = "INSERT INTO client_table (gateway, name, type, address1, address2, datetime) VALUES ('$centerUsername', '$centerName', '$centerType', '$centerAddress1', '$centerAddress2', '$datetime')";
 $result = $conn->query($sql);
 if($result) {
-	echo 'insert into client table successful<br>';
+	// echo 'insert into client table successful<br>';
 	$sql = "SELECT id FROM client_table WHERE gateway = \"$centerUsername\"";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_object())
@@ -36,7 +37,8 @@ $conn = new mysqli('localhost','root','root','teleradauthdb');
 $sql = "INSERT INTO userauth_table (user_role, username, auth_string, fk_user_id) VALUES ('$user_role', '$centerUsername', '$password', '$pid')";
 $result = $conn->query($sql);
 if($result) {
-	echo 'insert into auth table successful<br>';
+	// echo 'insert into auth table successful<br>';
+	$_SESSION['gateway'] = $centerUsername;
 } else {
 	die('Error :'.$conn->error);
 }

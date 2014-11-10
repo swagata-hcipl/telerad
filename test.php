@@ -1,17 +1,20 @@
 <?php
-if(isset($_REQUEST))
-{
-	include('session.php');
-	include('functions.php');
-    $conn = new mysqli("localhost","root","root","teleraddb");
-	error_reporting(E_ALL && ~E_NOTICE);
+include('session.php');
+include('functions.php');
+echo $_SESSION['gateway'].'<br>';
+error_reporting(E_ALL && ~E_NOTICE);
+$clientID = getIdByGateway($_SESSION['gateway']);
+// $patientID = getIdByPatientID($_SESSION['patientId']);
+// echo $patientID.'<br>';
+echo $clientID.'<br>';
+$conn = new mysqli("localhost","root","root","teleraddb");
 
-	$patientName=$_POST['patientName'];
-	$dob=$_POST['dob'];
-	$patientGender=$_POST['patientGender'];
-	$patientAddress1=$_POST['patientAddress1'];
-	$patientAddress2=$_POST['patientAddress2'];
-	$patientUsername=$_POST['patientUsername'];
+	$patientName="swagata Biswas-XV";
+	$dob="1990-09-14";
+	$patientGender=2;
+	$patientAddress1="Beliaghata";
+	$patientAddress2="Kolkata";
+	$patientUsername="swagata20";
 	date_default_timezone_set('Asia/Kolkata');
 	$datetime = date('Y-m-d H:i:s');
 	
@@ -35,10 +38,4 @@ if(isset($_REQUEST))
 	$conn->close();
 	// echo $_SESSION['gateway'];
 	include('clientPatient.php');
-	/*$sql="UPDATE member_study SET comments ='$email' WHERE id='$rowId'";
-	$result=mysql_query($sql);
-	/*if($result){
-	echo "You have been successfully subscribed.";
-	}*/
-}
 ?>

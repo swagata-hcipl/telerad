@@ -10,26 +10,29 @@
 </thead>
 <tbody>
 <?php 
+include('functions.php');
 $conn = new mysqli("localhost","root","root","teleraddb");
-$sql = "SELECT * FROM patient_table WHERE ";
+$clientID = getIdByGateway($_SESSION['gateway']);
+$sql = "SELECT fk_patient FROM client_patient_table WHERE fk_client='$clientID'";
 $result = $conn->query($sql);
 while($row = $result->fetch_object())
 {
-	echo '<tr>';
-	echo '<td>'.$row->name.'</td>';
-	echo '<td>'.$row->dob.'</td>';
-	$gender = $row->gender==1 ? "Male":"Female";
-	echo '<td>'.$gender.'</td>';
-	echo '<td>Edit</td>';
-	echo '<td>Studies</td>';
-	echo '</tr>';
+	$pid = $row->fk_patient;
+	$result1 = getEverythingByPid($pid);
+	while($row1 = $result1->fetch_object()) {
+		echo '<tr>';
+		echo '<td>'.$row1->name.'</td>';
+		echo '<td>'.$row1->dob.'</td>';
+		$gender = $row1->gender==1 ? "Male":"Female";
+		echo '<td>'.$gender.'</td>';
+		echo '<td>Edit</td>';
+		echo '<td>Studies</td>';
+		echo '</tr>';
+	}
 }
 ?>
 </tbody>
 </table>
-<?php
-echo $_SESSION['gateway'];
-?>
 <button id = "newPatient" class="open-patientRegisterModal btn btn-primary btn-lg" data-toggle="modal" data-target="#patientRegisterModal">New Patient..</button>
 <!-- Modal -->
 <div class="modal fade" id="patientRegisterModal" tabindex="-1" role="dialog" 
@@ -111,16 +114,16 @@ echo $_SESSION['gateway'];
          type: "post",
          url: "patientRegister.php",
          success: function(data){
-			  // alert("Data Save: " + inht);
-			  document.getElementById("patientRegisterForm").reset();
-              document.getElementById("closeIcon").click();
-			  var patientTable = document.getElementById("patientTable");
+			  alert("Data Save: ");
+			  // document.getElementById("patientRegisterForm").reset();
+              // document.getElementById("closeIcon").click();
+			  /*var patientTable = document.getElementById("patientTable");
 			  var row = patientTable.insertRow(-1);
 			  row.insertCell(0).innerHTML = patientName;
 			  row.insertCell(1).innerHTML = patientDOB;
 			  row.insertCell(2).innerHTML = patientGender;
 			  row.insertCell(3).innerHTML = "Edit";
-			  row.insertCell(4).innerHTML = "Studies";
+			  row.insertCell(4).innerHTML = "Studies";*/
 			  // location.reload("true");
 			  // document.getElementById(mess11).innerHTML=inht;
 			  
