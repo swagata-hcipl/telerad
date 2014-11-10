@@ -10,7 +10,7 @@
 <div class="container">
 <div class="row">
 <br>
-<div class="col-lg-12">
+<div class="col-sm-12 col-md-12 col-lg-12">
 <h2> Login Here </h2>
 <form id="loginForm" action="dxCentreHomepage.php" method="POST" role="form">
 <div class="form-group">
@@ -23,26 +23,45 @@
 <button type="Submit" class="btn btn-primary">Log-in</button>
 </form>
 <h2> Register Here </h2>
-<form id="registerForm" action="<?php  ?>" method="POST">
+
+<form id="registerForm" action="dxCentreHomepage.php" method="POST">
+<input type="hidden" name="formType" value="register"/>
+<table cellspacing="10">
+<tbody>
 <div class="form-group">
-<input type="hidden" name="formType" value="register">
-<label for="centerName">Name of Diagnostic Center</label>
-<input id="centerName" type="text" name="centerName" required/> <br>
-<label for="centerType">Password</label>
-<input id="centerType" type="text" name="centerType" required/> <br>
-<label for="centerAddress1">Address1</label>
-<input id="centerAddress1" type="text" name="centerAddress1"/> <br>
-<label for="centerAddress2">Address2</label>
-<input id="centerAddress2" type="text" name="centerAddress2"/> <br>
+<tr>
+<td><label for="centerName">Name of Diagnostic Center</label></td>
+<td><input id="centerName" type="text" name="centerName" required/></td>
+</tr>
+<tr>
+<td><label for="centerType">Center Type</label></td>
+<td><input id="centerType" type="text" name="centerType" required/></td>
+</tr>
+<tr>
+<td><label for="centerAddress1">Address1</label></td>
+<td><input id="centerAddress1" type="text" name="centerAddress1"/></td>
+</tr>
+<tr>
+<td><label for="centerAddress2">Address2</label></td>
+<td><input id="centerAddress2" type="text" name="centerAddress2"/></td>
+</tr>
 </div>
 <div class="form-group">
-<label for="centerUsername">Center Username</label>
-<input id="centerUsername" type="text" name="centerUsername"/> <br>
-<label for="centerAddress1">Password</label>
-<input id="centerAddress1" type="text" name="centerAddress1"/> <br>
-<label for="centerAddress1">Re-type Password</label>
-<input id="centerAddress1" type="text" name="centerAddress1"/> <br>
+<tr>
+<td><label for="centerUsername">Center Username</label></td>
+<td><input id="centerUsername" type="text" name="centerUsername"/></td>
+</tr>
+<tr>
+<td><label for="centerPassword">Password</label></td>
+<td><input id="centerPassword" type="password" name="centerPassword"/></td>
+</tr>
+<tr>
+<td><label for="centerPassword1">Re-type Password</label></td>
+<td><input id="centerPassword1" type="password" name="centerPassword1"/></td>
+</tr>
 </div>
+</tbody>
+</table>
 <button type="Submit" class="btn btn-primary">Register</button>
 </form>
 <?php
