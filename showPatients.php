@@ -26,7 +26,7 @@ while($row = $result->fetch_object())
 		$gender = $row1->gender==1 ? "Male":"Female";
 		echo '<td>'.$gender.'</td>';
 		echo '<td>Edit</td>';
-		echo '<td>Studies</td>';
+		echo '<td><a class="btn btn-info" href="studies.php">Studies</a></td>';
 		echo '</tr>';
 	}
 }
