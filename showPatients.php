@@ -205,9 +205,9 @@ $('#myModal').on('show.bs.modal', function(e) {
          type: "post",
          url: "patientRegister.php",
          success: function(data){
-			  alert("Data Save: ");
+			  // alert("Data Save: ");
 			  // document.getElementById("patientRegisterForm").reset();
-              // document.getElementById("closeIcon").click();
+              document.getElementById("closeIcon").click();
 			  /*var patientTable = document.getElementById("patientTable");
 			  var row = patientTable.insertRow(-1);
 			  row.insertCell(0).innerHTML = patientName;
@@ -229,4 +229,26 @@ $(document).ready(function() {
 } );
 </script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+    var t = $('#patientTable').DataTable();
+    var counter = 1;
+ 
+    $('#addRow').on( 'click', function () {
+        t.row.add( [
+            counter +'.1',
+            counter +'.2',
+            counter +'.3',
+            counter +'.4',
+            counter +'.5'
+        ] ).draw();
+ 
+        counter++;
+    } );
+ 
+    // Automatically add a first row of data
+    $('#addRow').click();
+} );
+</script>
+ 
  

@@ -1,5 +1,26 @@
 <!DOCTYPE html>
 <?php
+$gateway = $_POST['gateway'];
+$patientID = $_POST['pid'];
+$conn = new mysqli("localhost","root","root","teleraddb");
+$sql = "SELECT type FROM client_table WHERE gateway='$gateway'";
+$result = $conn->query($sql);
+$row = $result->fetch_object();
+$gatewayType = $row->type;
+date_default_timezone_set('Asia/Kolkata');
+$datetime = date('Y-m-d H:i:s');
+if($gatewayType == 2) {
+	$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, datetime, exit_id) VALUES ('HIPL0000002', '$patientID', '1990-01-01', '11', '$datetime', '$patientID')";
+	$result = $conn->query($sql);
+	if($result) {
+		echo 'successful';
+	} else {
+		die('Error :'.$conn->error);
+	}
+	die();
+}
+?>
+<?php
 include('session.php');
 // include('session2.php');
 include('functions.php');
