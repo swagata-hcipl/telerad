@@ -18,6 +18,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 		$sql = 'SELECT * FROM userauth_table WHERE username = "'.$userName.'" AND auth_string = "'.$password.'"';
 		$result = $conn->query($sql);
+		// echo $userName;
+		// echo $password;
 		if($result->num_rows==1) {
 			$row = $result->fetch_object();
 			$_SESSION['gateway'] = $userName;

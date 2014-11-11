@@ -10,6 +10,7 @@
 </thead>
 <tbody>
 <?php 
+// include('session.php');
 include('functions.php');
 $conn = new mysqli("localhost","root","root","teleraddb");
 $clientID = getIdByGateway($_SESSION['gateway']);
@@ -21,11 +22,11 @@ while($row = $result->fetch_object())
 	$result1 = getEverythingByPid($pid);
 	while($row1 = $result1->fetch_object()) {
 		echo '<tr>';
-		echo '<td>'.$row1->name.'</td>';
-		echo '<td>'.$row1->dob.'</td>';
+		echo '<td id = "name'.$row1->id.'">'.$row1->name.'</td>';
+		echo '<td id = "dob'.$row1->id.'">'.$row1->dob.'</td>';
 		$gender = $row1->gender==1 ? "Male":"Female";
 		echo '<td>'.$gender.'</td>';
-		echo '<td>Edit</td>';
+		echo '<td id = "cmnt'.$row1->id.'"><button id = "'.$row1->id.'" class="open-MyModal btn btn-primary btn-sm" data-toggle="modal" data-name="'.$row1->name.'" data-add1="'.$row1->address1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>';
 		echo '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'.$row1->id.'"/><button class="btn btn-primary">Studies</button></form></td>';
 		echo '</tr>';
 	}
@@ -33,6 +34,95 @@ while($row = $result->fetch_object())
 ?>
 </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button id="closeIconEdit" type="button" class="btn btn-default close " 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabelEdit">
+               Patient Details
+            </h4>
+         </div>
+         <div class="modal-body">
+            <form id="form-search" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+			<input type="hidden" name="pkid" id="pkID"></input>
+			Name: <input name="editName" type="text" id="editName" ></input><br>
+			DOB: <input name="editDOB" type="text" id="editDOB" ></input><br>
+			Address1: <input name="editadd1" type="text" id="editadd1" ></input><br>
+			Address2: <input name="editadd2" type="text" id="editadd2" ></input><br>
+			<!-- <input name="email" type="text" id="email" style="width:100%"></input> -->
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button id="saveEdit" type="button" class="btn btn-primary" >
+               Save
+            </button>
+			<!-- <button id='closeButtton' type="button" class="btn btn-default" 
+               data-dismiss="modal">Cancel
+            </button> -->
+         </div>
+      </div><!-- /.modal-content onclick="return fun() -->
+</div><!-- /.modal -->
+</div>
+
+<script type="text/javascript">
+ $(document).on('click','#saveEdit',function(e) {
+  // document.write($("form-search").serialize());
+  var data = $("#form-search").serialize();
+  var mess = document.getElementById("editName").value;
+  var mess1 = document.getElementById("pkID").value;
+  var mess2 = document.getElementById("editDOB").value;
+  var mess3 = document.getElementById("editadd1").value;
+  var mess4 = document.getElementById("editadd2").value;
+  var str = "cmnt";
+  var str1 = "name";
+  var str2 = "dob";
+  var mess11 = str.concat(mess1);
+  var mess22 = str1.concat(mess1);
+  var mess33 = str2.concat(mess1);
+  var inht = "<button id = \"".concat(mess1,"\" class=\"open-MyModal btn btn-primary btn-sm\" data-toggle=\"modal\" data-name=\"",mess,"\" data-add1=\"",mess3,"\" data-add2=\"",mess4,"\" data-dob=\"",mess2,"\" data-row-id=\"",mess1,"\"  data-target=\"#myModal\">Edit</button>");
+  // var str1 = "	<button id = "'.$row['id'].'" class="open-MyModal btn btn-primary btn-xs pull-right" data-toggle="modal" data-id="'.$row['id'].'" data-target="#myModal">Edit</button>";
+  $.ajax({
+         data: data,
+         type: "post",
+         url: "editpatient.php",
+         success: function(data){
+			  // alert("Data Save: " + inht);
+              document.getElementById("closeIconEdit").click();
+			  // location.reload("true");
+			  document.getElementById(mess11).innerHTML=inht;
+			  document.getElementById(mess22).innerHTML=mess;
+			  document.getElementById(mess33).innerHTML=mess2;
+         }
+});
+ });
+</script>
+
+<script type="text/javascript">
+$('#myModal').on('show.bs.modal', function(e) {
+	var comm = $(e.relatedTarget).data('name');
+    $(e.currentTarget).find('input[id="editName"]').val(comm);
+	var comm = $(e.relatedTarget).data('dob');
+    $(e.currentTarget).find('input[id="editDOB"]').val(comm);
+	var comm = $(e.relatedTarget).data('add1');
+    $(e.currentTarget).find('input[id="editadd1"]').val(comm);
+	var comm = $(e.relatedTarget).data('add2');
+    $(e.currentTarget).find('input[id="editadd2"]').val(comm);
+    var bookId = $(e.relatedTarget).data('row-id');
+    $(e.currentTarget).find('input[id="pkID"]').val(bookId);
+	/*var descId = "desc";
+	descId = descId.concat(bookId);
+	var desc = document.getElementById("descId").get
+	document.getElementById("myModalLabel").innerHTML();*/
+});
+</script>
+
 <button id = "newPatient" class="open-patientRegisterModal btn btn-primary btn-lg" data-toggle="modal" data-target="#patientRegisterModal">New Patient..</button>
 <!-- Modal -->
 <div class="modal fade" id="patientRegisterModal" tabindex="-1" role="dialog" 
@@ -95,6 +185,7 @@ while($row = $result->fetch_object())
             </button> -->
          </div>
       </div><!-- /.modal-content onclick="return fun() -->
+</div>
 </div><!-- /.modal -->
 
 <script type="text/javascript">

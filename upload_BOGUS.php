@@ -18,21 +18,11 @@ include('functions.php');
 <br>
 <div class = "container">
 <?php
-echo '<h2>'.$_SESSION['gateway'].'</h2>';
-if(isset($_POST['patientID'])) {
-$patient_table_id = $_POST['patientID'];
-$conn = new mysqli("localhost","root","root","teleraddb");
-	$sql = "SELECT patient_id FROM patient_table WHERE id='$patient_table_id'";
-	$result = $conn->query($sql);
-	$row = $result->fetch_object();
-	
-$_SESSION['patientID'] = $row->patient_id;
-}
-echo '<h4>Patient: '.$_SESSION['patientID'].'</h4>';
+echo $_SESSION['gateway'];
+
 // session_start();
-/*error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 $doc = new DOMDocument();
-$doc->validateOnParse = true;
 $doc->loadHTMLFile('upload.php');
 $tagname = $doc->getElementById('counter');
 $counter = $tagname->getAttribute('value');
@@ -43,16 +33,24 @@ if($_SERVER['REQUEST_METHOD']=="POST" and isset($_POST['patientID']) and isset($
 	$_SESSION[$temp_counter]['patientID'] = $_POST['patientID'];
 	$_SESSION['counter'] = $temp_counter;
 	$tagname = $doc->getElementById('counter');
-	$counter = $tagname->setAttribute('value',$temp_counter);
+	$tagname->setAttribute('value',$temp_counter);
 }
 else if($_SERVER['REQUEST_METHOD']=="POST" and isset($_POST['patientID'])) {
 	$_SESSION['gateway'] = $_POST['gateway'];
 	$_SESSION[0]['patientID'] = $_POST['patientID'];
 	$_SESSION['counter'] = 0;
 }
-else {
-	//$counter= document.getElementById('counter').value;
-}*/
+echo $_SESSION[$counter]['patientID'];
+
+if(isset($_POST['patientID'])) {
+$patient_table_id = $_POST['patientID'];
+$conn = new mysqli("localhost","root","root","teleraddb");
+	$sql = "SELECT patient_id FROM patient_table WHERE id='$patient_table_id'";
+	$result = $conn->query($sql);
+	$row = $result->fetch_object();
+	
+$_SESSION[$counter]['patientID'] = $row->patient_id;
+}
 
 ?>
 <div class = "row">
@@ -207,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 			$pacsid = $row['pk'];
 			echo 'pacsid = '.$pacsid.'<br>';
 			// echo 'counter = '.$counter.'<br>';
-			$ppid = getIdByPatientID($_SESSION['patientID']);
+			$ppid = getIdByPatientID($_SESSION[$counter]['patientID']);
 			echo 'ppid = '.$ppid.'<br>';
 			echo $_SESSION['gateway'];
 			$cpid = getIdByGateway($_SESSION['gateway']);
@@ -295,7 +293,7 @@ $conn = mysql_connect('localhost:3306','root','root');
 echo '<div class="container">';
 echo '<div class="row">';
 echo '<div class="col-md-12">';
-$ppid = getIdByPatientID($_SESSION['patientID']);
+$ppid = getIdByPatientID($_SESSION[$counter]['patientID']);
 $cpid = getIdByGateway($_SESSION['gateway']);
 $sql = 'SELECT id FROM client_patient_table WHERE fk_client="'.$cpid.'" AND fk_patient="'.$ppid.'"';
 mysql_select_db('teleraddb');
