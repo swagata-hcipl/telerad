@@ -26,7 +26,7 @@ while($row = $result->fetch_object())
 		$gender = $row1->gender==1 ? "Male":"Female";
 		echo '<td>'.$gender.'</td>';
 		echo '<td>Edit</td>';
-		echo '<td><a class="btn btn-info" href="studies.php">Studies</a></td>';
+		echo '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'.$row1->id.'"/><button class="btn btn-primary">Studies</button></form></td>';
 		echo '</tr>';
 	}
 }

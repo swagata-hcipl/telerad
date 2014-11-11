@@ -18,7 +18,7 @@ if(isset($_REQUEST))
 	$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, address1, address2, datetime) VALUES ('$patientUsername', '$patientName', '$dob', '$patientGender', '$patientAddress1', '$patientAddress2', '$datetime')";
 	$result = $conn->query($sql);
 	if($result) {
-		$_SESSION['patientId'] = $patientUsername;
+		/* $_SESSION['patientId'] = $patientUsername;
 		echo $_SESSION['patientId'].'<br>';
 		$patientID = getIdByPatientID($_SESSION['patientId']);
 		echo $patientID.'<br>';
