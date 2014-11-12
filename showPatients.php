@@ -27,7 +27,7 @@ while($row = $result->fetch_object())
 		$gender = $row1->gender==1 ? "Male":"Female";
 		echo '<td>'.$gender.'</td>';
 		echo '<td id = "cmnt'.$row1->id.'"><button id = "'.$row1->id.'" class="open-MyModal btn btn-primary btn-sm" data-toggle="modal" data-name="'.$row1->name.'" data-add1="'.$row1->address1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>';
-		echo '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'.$row1->id.'"/><button class="btn btn-primary">Studies</button></form></td>';
+		echo '<td><form action="upload.php" method="POST" target="_blank"><input type="hidden" name="patientID" value="'.$row1->id.'"/><button class="btn btn-primary">Studies</button></form></td>';
 		echo '</tr>';
 	}
 }
@@ -154,7 +154,11 @@ $('#myModal').on('show.bs.modal', function(e) {
 			</tr>
 			<tr>
 			<td><label for="patientGender">Gender</label></td>
-			<td><input id="patientGender" type="text" name="patientGender" required/></td>
+			<td><div class="input-group">
+                  <input type="radio"  name="patientGender" value="1">Male</input>
+                  <input type="radio" name="patientGender" value="2">Female</input>
+                  <input type="radio" name="patientGender" value="3">Others</input>
+            </div></td>
 			</tr>
 			<tr>
 			<td><label for="patientAddress1">Address1</label></td>
@@ -165,12 +169,12 @@ $('#myModal').on('show.bs.modal', function(e) {
 			<td><input id="patientAddress2" type="text" name="patientAddress2"/></td>
 			</tr>
 			</div>
-			<div class="form-group">
+			<!--<div class="form-group">
 			<tr>
 			<td><label for="patientUsername">Patient Username</label></td>
 			<td><input id="patientUsername" type="text" name="patientUsername"/></td>
 			</tr>
-			</div>
+			</div>-->
 			</tbody>
 			</table>
 			<!-- <button type="Submit" class="btn btn-primary">Register</button> -->
@@ -194,7 +198,7 @@ $('#myModal').on('show.bs.modal', function(e) {
   var data = $("#patientRegisterForm").serialize();
   var patientName = document.getElementById("patientName").value;
   var patientDOB = document.getElementById("dob").value;
-  var patientGender = (document.getElementById("patientGender").value==1)?"Male":"Female";
+  // var patientGender = (document.getElementById("patientGender").value==1)?"Male":"Female";
   // var mess1 = document.getElementById("pkID").value;
   // var str = "cmnt";
   // var mess11 = str.concat(mess1);

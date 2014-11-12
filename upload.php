@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <?php
+
+// include('session2.php');
+include('functions.php');
+?>
+<?php
+if(!isset($_SESSION['patientID']) && isset($_POST['pid'])) {
 $gateway = $_POST['gateway'];
 $patientID = $_POST['pid'];
 $conn = new mysqli("localhost","root","root","teleraddb");
@@ -10,21 +16,63 @@ $gatewayType = $row->type;
 date_default_timezone_set('Asia/Kolkata');
 $datetime = date('Y-m-d H:i:s');
 if($gatewayType == 2) {
-	$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, datetime, exit_id) VALUES ('HIPL0000002', '$patientID', '1990-01-01', '11', '$datetime', '$patientID')";
+	$sql = "SELECT patient_id FROM patient_table WHERE exit_id='$patientID'";
 	$result = $conn->query($sql);
-	if($result) {
-		echo 'successful';
-	} else {
-		die('Error :'.$conn->error);
+	session_start();
+	if(!$result->num_rows) {
+		echo "new emr patient";
+		$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, datetime, exit_id) VALUES ('$patientID', '$patientID', '1990-01-01', '11', '$datetime', '$patientID')";
+		$result = $conn->query($sql);
+		if($result) {
+			echo 'successful';
+			$sql = "SELECT id FROM patient_table WHERE exit_id='$patientID'";
+			$result = $conn->query($sql);
+			$row = $result->fetch_object();
+			$patient_id = $gateway.$row->id;
+			echo $patient_id;
+			$sql="UPDATE patient_table SET patient_id ='$patient_id' WHERE id='$row->id'";
+			$result = $conn->query($sql);
+			if($result) {
+				// echo 'successful';
+			} else {
+				die('Error :'.$conn->error);
+			}
+			$_SESSION['gateway'] = $gateway;
+			$_SESSION['patientID'] = $patient_id;
+		} else {
+			die('Error :'.$conn->error);
+		}
+		
+		
+		// $conn = new mysqli("localhost","root","root","teleraddb");
+		$clientID = getIdByGateway($_SESSION['gateway']);
+		$patientID = getIdByPatientID($_SESSION['patientID']);
+		// echo $clientID;
+		date_default_timezone_set('Asia/Kolkata');
+		$datetime = date('Y-m-d H:i:s');
+		$sql = "INSERT INTO client_patient_table (fk_client, fk_patient, datetime) VALUES ('$clientID', '$patientID', '$datetime')";
+		$result = $conn->query($sql);
+		if($result) {
+		} else {
+			die('Error :'.$conn->error);
+		}
+		$conn->close();
 	}
-	die();
+	else {
+		// echo "existing emr patient";
+		$_SESSION['gateway'] = $gateway;
+		$row = $result->fetch_object();
+		$_SESSION['patientID'] = $row->patient_id;
+	}
+	// die();
 }
+} else {
+	include('session.php');
+	// echo "session check";
+}
+
 ?>
-<?php
-include('session.php');
-// include('session2.php');
-include('functions.php');
-?>
+
 <html>
 <head>
 <title>Dicom Files Upload to PACS</title>
@@ -41,6 +89,7 @@ include('functions.php');
 <?php
 echo '<h2>'.$_SESSION['gateway'].'</h2>';
 if(isset($_POST['patientID'])) {
+// echo "coming from DX clients";
 $patient_table_id = $_POST['patientID'];
 $conn = new mysqli("localhost","root","root","teleraddb");
 	$sql = "SELECT patient_id FROM patient_table WHERE id='$patient_table_id'";
@@ -49,7 +98,7 @@ $conn = new mysqli("localhost","root","root","teleraddb");
 	
 $_SESSION['patientID'] = $row->patient_id;
 }
-echo '<h4>Patient: '.$_SESSION['patientID'].'</h4>';
+echo '<h4>Patient: '.getNameByPatientID($_SESSION['patientID']).'</h4>';
 // session_start();
 /*error_reporting(E_ERROR | E_PARSE);
 $doc = new DOMDocument();
@@ -404,7 +453,7 @@ echo '</table>';
 			<input type="hidden" name="pkid" id="pkID"></input>
 			<!-- <input name="email" type="text" id="email" style="width:100%"></input> -->
             </form>
-			<textarea rows="4" cols="78" name="email" id="email" form="form-search">
+			<textarea rows="4" style="box-sizing: border-box; width:100%; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;" name="email" id="email" form="form-search">
 			</textarea>
          </div>
          <div class="modal-footer">

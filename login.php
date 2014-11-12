@@ -26,18 +26,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 			header("location: profile.php");
 		}
 		else {
-			
 			echo '<script type="text/javascript"> 
 			$(document).ready(function(){
 				document.getElementById("wrongUP").style.display = "block";
 			})
-			
 			</script>';
-			
-			// echo '<script type="text/javascript"> alert("Wrong password")</script>';
-			/*$newURL = $_SERVER['HTTP_REFERER'];
-			header('Location: '.$newURL); 
-			die();*/
 		}
 		$conn->close();
     } else if($_POST['formType'] == "register") {
@@ -77,7 +70,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 </tr>
 <tr>
 <td><label for="centerType">Center Type</label></td>
-<td><input id="centerType" type="text" name="centerType" required/></td>
+<td><select id="centerType" name="centerType">
+  <option value="1">Diagnostic Center</option>
+  <option value="2">EMR</option>
+</select></td>
 </tr>
 <tr>
 <td><label for="centerAddress1">Address1</label></td>

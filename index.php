@@ -6,8 +6,6 @@
 <title>Dicom Files Upload to PACS</title>
 <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <script src="./bootstrap/js/bootstrap.min.js"></script>
-<script src="./js/jquery.dataTables.min.js"></script>
-<link href="./css/jquery.dataTables.css" rel="stylesheet" media="screen"></link>
 
 </head>
 <body> 
@@ -28,8 +26,8 @@ function myFunction() {
 	document.getElementById("view").style.display="block";
 	document.getElementById("user").disabled = true;
     var pid = document.getElementById("user").value;
-    document.getElementById("view").innerHTML="";
-	document.getElementById("view").innerHTML="<p>Successfully logged in</p><br><div id=\"View-dicom\" ><form action=\"upload.php\" method=\"POST\"><input id=\"vb\" type=\"submit\" value=\"View/Upload Dicom Images\">  </input><input type=\"hidden\" name=\"gateway\" value=\"HIPL\"><input type=\"hidden\" name=\"pid\" value=\""+pid+"\"></div>";
+    // document.getElementById("view").innerHTML="";
+	document.getElementById("view").innerHTML="<p>Successfully logged in</p><br><div id=\"View-dicom\" ><form action=\"upload.php\" method=\"POST\" target=\"_blank\"><input type=\"hidden\" name=\"gateway\" value=\"HIPL\"></input><input type=\"hidden\" name=\"pid\" value=\""+pid+"\"></input><input id=\"vb\" type=\"submit\" value=\"View/Upload Dicom Images\">  </input></form></div>";
 }
 </script>
 </div>

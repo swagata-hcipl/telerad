@@ -30,4 +30,11 @@ function getEverythingByPid($id) {
 	return $result;
 }
 
+function getNameByPatientID($pid) {
+	$conn = new mysqli("localhost","root","root","teleraddb");
+	$sql = "SELECT name FROM patient_table WHERE patient_id='$pid'";
+	$result = $conn->query($sql);
+	$row = $result->fetch_object();
+	return $row->name;
+}
 ?>
