@@ -27,7 +27,7 @@ while($row = $result->fetch_object())
 		$gender = $row1->gender==1 ? "Male":"Female";
 		echo '<td>'.$gender.'</td>';
 		echo '<td id = "cmnt'.$row1->id.'"><button id = "'.$row1->id.'" class="open-MyModal btn btn-primary btn-sm" data-toggle="modal" data-name="'.$row1->name.'" data-add1="'.$row1->address1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>';
-		echo '<td><form action="upload.php" method="POST" target="_blank"><input type="hidden" name="patientID" value="'.$row1->id.'"/><button class="btn btn-primary">Studies</button></form></td>';
+		echo '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'.$row1->id.'"/><button class="btn btn-primary">Studies</button></form></td>';
 		echo '</tr>';
 	}
 }
@@ -193,6 +193,9 @@ $('#myModal').on('show.bs.modal', function(e) {
 </div><!-- /.modal -->
 
 <script type="text/javascript">
+$(document).ready(function() {
+    var t = $('#patientTable').DataTable();
+} );
  $(document).on('click','#patientRegister',function(e) {
   // document.write($("form-search").serialize());
   var data = $("#patientRegisterForm").serialize();
@@ -221,24 +224,30 @@ $('#myModal').on('show.bs.modal', function(e) {
 			  row.insertCell(4).innerHTML = "Studies";*/
 			  // location.reload("true");
 			  // document.getElementById(mess11).innerHTML=inht;
-			  
+			  /*t.row.add( [
+				counter +'.1',
+				counter +'.2',
+				counter +'.3',
+				counter +'.4',
+				counter +'.5'
+			  ] ).draw();*/
          }
 });
  });
 </script>
 
 <script type="text/javascript">
-$(document).ready(function() {
+/*$(document).ready(function() {
     $('#patientTable').DataTable();
-} );
+} );*/
 </script>
 
 <script type="text/javascript">
 $(document).ready(function() {
-    var t = $('#patientTable').DataTable();
-    var counter = 1;
+    //var t = $('#patientTable').DataTable();
+    // var counter = 1;
  
-    $('#addRow').on( 'click', function () {
+    /*$('#addRow').on( 'click', function () {
         t.row.add( [
             counter +'.1',
             counter +'.2',
@@ -248,10 +257,10 @@ $(document).ready(function() {
         ] ).draw();
  
         counter++;
-    } );
+    } );*/
  
     // Automatically add a first row of data
-    $('#addRow').click();
+    // $('#addRow').click();
 } );
 </script>
  

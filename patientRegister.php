@@ -57,7 +57,7 @@ if(isset($_REQUEST))
 	} else {
 		die('Error :'.$conn->error);
 	}
-
+	echo 'successful';
 	$conn->close();
 	
 	

@@ -12,5 +12,6 @@ if(isset($_REQUEST))
 	/*if($result){
 	echo "You have been successfully subscribed.";
 	}*/
+	echo 'successful';
 }
 ?>

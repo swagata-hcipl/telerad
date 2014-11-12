@@ -76,14 +76,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 </tr>
 <tr>
 <td><label for="centerType">Center Type</label></td>
-<td><select class="form-control" id="centerType" name="centerType">
+<td><select class="form-control" id="centerType" name="centerType" required>
   <option value="1">Diagnostic Center</option>
   <option value="2">EMR</option>
 </select></td>
 </tr>
 <tr>
 <td><label for="centerAddress1">Address1</label></td>
-<td><input class="form-control" id="centerAddress1" type="text" name="centerAddress1"/></td>
+<td><input class="form-control" id="centerAddress1" type="text" name="centerAddress1" required/></td>
 </tr>
 <tr>
 <td><label for="centerAddress2">Address2</label></td>
@@ -93,16 +93,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 <div class="form-group">
 <tr>
 <td><label for="centerUsername">Center Username</label></td>
-<td><input class="form-control" id="centerUsername" type="text" name="centerUsername"></input></td>
+<td><input class="form-control" id="centerUsername" type="text" name="centerUsername" required></input></td>
 <td><span id="user-result"></span></td>
 </tr>
 <tr>
 <td><label for="centerPassword">Password</label></td>
-<td><input class="form-control" id="centerPassword" type="password" name="centerPassword"/></td>
+<td><input class="form-control" id="centerPassword" type="password" name="centerPassword" required/></td>
 </tr>
 <tr>
 <td><label for="centerPassword1">Re-type Password</label></td>
-<td><input class="form-control" id="centerPassword1" type="password" name="centerPassword1"/></td>
+<td><input class="form-control" id="centerPassword1" type="password" name="centerPassword1" required/></td>
 </tr>
 </div>
 </tbody>

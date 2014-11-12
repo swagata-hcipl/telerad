@@ -68,6 +68,7 @@ if($gatewayType == 2) {
 }
 } else {
 	include('session.php');
+	include('session2.php');
 	// echo "session check";
 }
 
@@ -487,7 +488,7 @@ echo '</table>';
          type: "post",
          url: "insetcomment.php",
          success: function(data){
-			  // alert("Data Save: " + inht);
+			  // alert("Data Save: " + data);
               document.getElementById("closeIcon").click();
 			  // location.reload("true");
 			  document.getElementById(mess11).innerHTML=inht;
