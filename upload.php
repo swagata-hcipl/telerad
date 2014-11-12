@@ -192,7 +192,7 @@ function dcmsndFucntion($tmpkey,$key, $studyArray) {
 	ob_flush();
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
-	echo '<div id="information" style="width"></div>';
+	echo '<div class="alert alert-info" role="alert" id="information" style="width"></div>';
 	echo '<div id="progresss" class="progress progress-striped active"><div id="barr" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%;"></div></div>';
 	$start_time = microtime('true');
 	
@@ -229,24 +229,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 			}
 		}
 		else {
-			echo 'Error in uploading the file to server '.$_FILES['file']['name'][$key];
+			//echo 'Error in uploading the file to server '.$_FILES['file']['name'][$key];
+			echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error in uploading the file to server '.$_FILES['file']['name'][$key].'</div>';
 			switch($_FILES['file']['error']) {
 				case 1:
-					echo '<div class="alert alert-danger" role="alert">Error Code-1: The uploaded file exceeds the maximum file size of 50 MB</div>';
+					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-1: The uploaded file exceeds the maximum file size of 50 MB</div>';
 				case 2:
-					echo '<div class="alert alert-danger" role="alert">Error Code-2: The uploaded file exceeds the maximum file size of 50 MB</div>';
+					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-2: The uploaded file exceeds the maximum file size of 50 MB</div>';
 				case 3:
-					echo '<div class="alert alert-danger" role="alert">Error Code-3: The uploaded file was only partially uploaded</div>';
+					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-3: The uploaded file was only partially uploaded</div>';
 				case 4:
-					echo '<div class="alert alert-danger" role="alert">Error Code-4: No file was uploaded</div>';
+					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-4: No file was uploaded</div>';
 				case 5:
-					echo '<div class="alert alert-danger" role="alert">Error Code-5: Contact for Help</div>';
+					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-5: Contact for Help</div>';
 				case 6:
-					echo '<div class="alert alert-danger" role="alert">Error Code-6: Contact for Help</div>';
+					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-6: Contact for Help</div>';
 				case 7:
-					echo '<div class="alert alert-danger" role="alert">Error Code-7: Contact for Help</div>';
+					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-7: Contact for Help</div>';
 				case 8:
-					echo '<div class="alert alert-danger" role="alert">Error Code-8: Contact for Help</div>';
+					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-8: Contact for Help</div>';
 			}
 		}
 	}
@@ -275,19 +276,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 			$retval = mysql_query( $sql, $conn );
 			$row = mysql_fetch_array($retval, MYSQL_ASSOC);
 			$pacsid = $row['pk'];
-			echo 'pacsid = '.$pacsid.'<br>';
+			//echo 'pacsid = '.$pacsid.'<br>';
 			// echo 'counter = '.$counter.'<br>';
 			$ppid = getIdByPatientID($_SESSION['patientID']);
-			echo 'ppid = '.$ppid.'<br>';
-			echo $_SESSION['gateway'];
+			//echo 'ppid = '.$ppid.'<br>';
+			//echo $_SESSION['gateway'];
 			$cpid = getIdByGateway($_SESSION['gateway']);
-			echo 'cpid = '.$cpid.'<br>';
+			//echo 'cpid = '.$cpid.'<br>';
 			$sql = 'SELECT id FROM client_patient_table WHERE fk_client="'.$cpid.'" AND fk_patient="'.$ppid.'"';
 			mysql_select_db('teleraddb');
 			$retval = mysql_query( $sql, $conn );
 			$row = mysql_fetch_array($retval, MYSQL_ASSOC);
 			$cppid = $row['id'];
-			echo $cppid.'<br>';
+			//echo $cppid.'<br>';
 			$sql = 'SELECT id FROM study_table WHERE fk_client_patient="'.$cppid.'" AND fk_study="'.$pacsid.'"';
 			mysql_select_db('teleraddb');
 			$retval = mysql_query( $sql, $conn );
@@ -295,13 +296,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 			if(empty($row1)) {
 				
 				$sql1 = "INSERT INTO study_table (fk_client_patient, fk_study) VALUES ('".$cppid."','".$pacsid."')";
-				echo $sql1;
+				//echo $sql1;
 				mysql_query( $sql1, $conn );
 			}
 		}
 	}
 	mysql_close($conn);
-	if($count == $total) {
+	if($count == $total && $total != 0) {
 		//echo '<script language="javascript">document.getElementById("information").innerHTML="All files uploaded successfully"</script>';
 		echo '<div class="alert alert-success" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Well done! You have successfully uploaded all the files</div>';
 	} else {

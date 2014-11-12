@@ -46,6 +46,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 <br>
 <div class="col-sm-12 col-md-12 col-lg-12">
 <h2> Login Here </h2>
+<label class="pull-right" for="registerLink"><h3>Click Here to Register</h3><a href="register.php" id="registerLink" class="btn-lnk btn-primary btn-lg">Register</a></label>
+
 <div class="col-xs-4">
 <form id="loginForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" role="form">
 <div class="form-group">
@@ -65,7 +67,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 <br>
 <div class="row">
 <div class="col-sm-12 col-md-12 col-lg-12">
-<a href="register.php" class="btn-lnk btn-primary btn-lg">Register</a>
 </div>
 </div>
 </div>
