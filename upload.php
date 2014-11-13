@@ -195,7 +195,7 @@ function dcmsndFucntion($tmpkey,$key, $studyArray) {
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 	echo '<div class="alert alert-info" role="alert" id="information" style="width"></div>';
-	echo '<div id="progresss" class="progress progress-striped active"><div id="barr" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%;"></div></div>';
+	echo '<div id="progresss" class="progress progress-striped active" style="display:none;"><div id="barr" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%;"></div></div>';
 	$start_time = microtime('true');
 	
 	$totalSize=0;
@@ -256,9 +256,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 	echo '<script language="javascript">';
 	echo 'document.getElementById("progresss").className = "progress progress-striped"';
 	echo '</script>';
-	echo '<script language="javascript">';
+	/*echo '<script language="javascript">';
 	echo 'document.getElementById("progresss").setAttribute("style","display:none")';
-	echo '</script>';
+	echo '</script>';*/
 	echo '<script language="javascript">';
 	echo 'document.getElementById("barr").setAttribute("style","width:0%")';
 	echo '</script>';
@@ -327,9 +327,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 <input type="hidden" value="myFormUpload" name="<?php echo ini_get("session.upload_progress.name"); ?>">
 <label for="inputfile"><h4>File(s) Input</h4></label>
 <input type="file" name="file[]" id="inputfile" multiple>
-<input class="btn btn-primary" type="submit" value="Start Upload">
 </div>
-<!-- <button type="submit" class="btn btn-primary" form="myFormUpload" value="Upload Files">Upload</button> -->
+<button type="submit" class="btn btn-primary" form="myFormUpload" value="Upload Files">Upload</button>
 </form>
 <script type="text/javascript" src="script.js"></script>
 </div>
