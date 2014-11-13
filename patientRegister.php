@@ -61,6 +61,5 @@ if(isset($_REQUEST))
 	echo 'successful';
 	$conn->close();
 	
-	
 }
 ?>

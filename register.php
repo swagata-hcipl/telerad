@@ -91,7 +91,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 </tr>
 <tr>
 <td><label for="centerpincode">Pincode</label></td>
-<td><input class="form-control" id="centerpincode" type="text" name="centerpincode"/></td>
+<td><input pattern=".{6,}" class="form-control" id="centerpincode" type="text" name="centerpincode" maxlength="6" title="exactly 6 numbers"/></td>
 </tr>
 </div>
 <div class="form-group">
@@ -102,7 +102,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 </tr>
 <tr>
 <td><label for="centerPassword">Password</label></td>
-<td><input class="form-control" id="centerPassword" type="password" name="centerPassword" required/></td>
+<td><input pattern=".{8,}" class="form-control" id="centerPassword" type="password" name="centerPassword" maxlength="12" required title="Password length 8-12"/></td>
 </tr>
 <tr>
 <td><label for="centerPassword1">Re-type Password</label></td>

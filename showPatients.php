@@ -1,19 +1,21 @@
 <table id="patientTable">
 <thead>
 <tr>
-<td>Patients Name</td>
-<td>Date Of Birth</td>
-<td>Gender</td>
-<td></td>
-<td></td>
+<th>Patients Name</th>
+<th>Date Of Birth</th>
+<th>Gender</th>
+<th>Edit Patient</th>
+<th>View</th>
 </tr>
 </thead>
 <tbody>
 <?php 
 // include('session.php');
 include('functions.php');
+echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
 echo '<h1>'.getNameByGateway($_SESSION['gateway']).'</h1>';
-echo '<h4 align="right"><a href="logout.php">Logout</a></h4>';
+
+echo '<br>';
 $conn = new mysqli("localhost","root","root","teleraddb");
 $clientID = getIdByGateway($_SESSION['gateway']);
 $sql = "SELECT fk_patient FROM client_patient_table WHERE fk_client='$clientID'";
@@ -28,7 +30,7 @@ while($row = $result->fetch_object())
 		echo '<td id = "dob'.$row1->id.'">'.$row1->dob.'</td>';
 		$gender = $row1->gender==1 ? "Male":"Female";
 		echo '<td>'.$gender.'</td>';
-		echo '<td id = "cmnt'.$row1->id.'"><button id = "'.$row1->id.'" class="open-MyModal btn btn-primary btn-sm" data-toggle="modal" data-name="'.$row1->name.'" data-add1="'.$row1->address1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>';
+		echo '<td id = "cmnt'.$row1->id.'"><button id = "'.$row1->id.'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'.$row1->name.'" data-add1="'.$row1->address1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>';
 		echo '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'.$row1->id.'"/><button class="btn btn-primary">Studies</button></form></td>';
 		echo '</tr>';
 	}
@@ -77,11 +79,6 @@ while($row = $result->fetch_object())
 			<td style="width:40%"><label for="editadd2">Address2</label></td>
 			<td><input class="form-control" id="editadd2" type="text" name="editadd2"/></td>
 			</tr>
-			<!-- Name: <input name="editName" type="text" id="editName" ></input><br>
-			DOB: <input name="editDOB" type="text" id="editDOB" ></input><br>
-			Address1: <input name="editadd1" type="text" id="editadd1" ></input><br>
-			Address2: <input name="editadd2" type="text" id="editadd2" ></input><br>
-			<!-- <input name="email" type="text" id="email" style="width:100%"></input> -->
 			</div>
 			</tbody>
 			</table>
@@ -91,9 +88,6 @@ while($row = $result->fetch_object())
             <button id="saveEdit" type="button" class="btn btn-primary" >
                Save
             </button>
-			<!-- <button id='closeButtton' type="button" class="btn btn-default" 
-               data-dismiss="modal">Cancel
-            </button> -->
          </div>
       </div><!-- /.modal-content onclick="return fun() -->
 </div><!-- /.modal -->
@@ -144,10 +138,6 @@ $('#myModal').on('show.bs.modal', function(e) {
     $(e.currentTarget).find('input[id="editadd2"]').val(comm);
     var bookId = $(e.relatedTarget).data('row-id');
     $(e.currentTarget).find('input[id="pkID"]').val(bookId);
-	/*var descId = "desc";
-	descId = descId.concat(bookId);
-	var desc = document.getElementById("descId").get
-	document.getElementById("myModalLabel").innerHTML();*/
 });
 </script>
 
@@ -180,7 +170,7 @@ $('#myModal').on('show.bs.modal', function(e) {
 			<tr>
 			<td style="width:10%"></td>
 			<td style="width:40%"><label for="dob">Date of Birth</label></td>
-			<td><input class="form-control" id="dob" type="text" name="dob" required/></td>
+			<td><input class="form-control" id="dob" type="date" name="dob" required/></td>
 			</tr>
 			<tr>
 			<td style="width:10%"></td>
@@ -204,27 +194,17 @@ $('#myModal').on('show.bs.modal', function(e) {
 			<tr>
 			<td style="width:10%"></td>
 			<td style="width:40%"><label for="patientPincode">Pincode</label></td>
-			<td><input class="form-control" id="patientPincode" type="text" name="patientPincode" required/></td>
+			<td><input class="form-control" id="patientPincode" type="number" name="patientPincode" maxlength="6" required/></td>
 			</tr>
 			</div>
-			<!--<div class="form-group">
-			<tr>
-			<td><label for="patientUsername">Patient Username</label></td>
-			<td><input id="patientUsername" type="text" name="patientUsername"/></td>
-			</tr>
-			</div>-->
 			</tbody>
 			</table>
-			<!-- <button type="Submit" class="btn btn-primary">Register</button> -->
             </form>
          </div>
          <div class="modal-footer">
             <button id="patientRegister" type="button" class="btn btn-primary" >
                Register
             </button>
-			<!-- <button id='closeButtton' type="button" class="btn btn-default" 
-               data-dismiss="modal">Cancel
-            </button> -->
          </div>
       </div><!-- /.modal-content onclick="return fun() -->
 </div>
@@ -239,7 +219,7 @@ $(document).ready(function() {
   var data = $("#patientRegisterForm").serialize();
   var patientName = document.getElementById("patientName").value;
   var patientDOB = document.getElementById("dob").value;
-  // var patientGender = (document.getElementById("patientGender").value==1)?"Male":"Female";
+  var patientGender = (document.getElementById("patientGender").value==1)?"Male":"Female";
   // var mess1 = document.getElementById("pkID").value;
   // var str = "cmnt";
   // var mess11 = str.concat(mess1);
@@ -262,44 +242,17 @@ $(document).ready(function() {
 			  row.insertCell(4).innerHTML = "Studies";*/
 			  // location.reload("true");
 			  // document.getElementById(mess11).innerHTML=inht;
-			  /*t.row.add( [
-				counter +'.1',
-				counter +'.2',
-				counter +'.3',
-				counter +'.4',
+			  t.fnAddData( [
+				"<td id = \"name"+data+"\">"+patientName+"</td>",
+				"<td id = \"name"+data+"\">"+patientDOB+"</td>",
+				"<td>"+patientGender+"</td>",
+				"<td id = \"cmnt"+data+"\"><button id = \""+data+"\" class=\"open-MyModal btn btn-primary\" data-toggle=\"modal\" data-name=\""+patientName+"\" data-add1=\""+patientaddress1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>,
 				counter +'.5'
-			  ] ).draw();*/
+			  ] );
          }
 });
  });
 </script>
 
-<script type="text/javascript">
-/*$(document).ready(function() {
-    $('#patientTable').DataTable();
-} );*/
-</script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    //var t = $('#patientTable').DataTable();
-    // var counter = 1;
- 
-    /*$('#addRow').on( 'click', function () {
-        t.row.add( [
-            counter +'.1',
-            counter +'.2',
-            counter +'.3',
-            counter +'.4',
-            counter +'.5'
-        ] ).draw();
- 
-        counter++;
-    } );*/
- 
-    // Automatically add a first row of data
-    // $('#addRow').click();
-} );
-</script>
  
  

@@ -99,6 +99,8 @@ $conn = new mysqli("localhost","root","root","teleraddb");
 	
 $_SESSION['patientID'] = $row->patient_id;
 }
+echo '<a href="profile.php" id="registerLink" class="btn btn-primary btn-lg">Patients</a>';
+echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
 echo '<div style="clear: both"><h1 style="float: left">'.getNameByGateway($_SESSION['gateway']).'</h1><h3 style="float: right">'.getNameByPatientID($_SESSION['patientID']).'</h3></div><br>';
 
 // session_start();
@@ -130,6 +132,7 @@ else {
 <div class = "row">
 <div class = "col-md-12">
 <?php
+
 $total=0;
 $count=0;
 $studyArray = array();
@@ -313,6 +316,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 	}
 }
 ?>
+<br>
 <div id="progresss" class="progress progress-striped active" style="display:none;"><div id="barr" class="progress-bar progress-bar-success" 
 	role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div></div>
 <div class="row">
