@@ -17,8 +17,8 @@ include('session.php');
 <br>
 <div class="col-sm-12 col-md-12 col-lg-12">
 <?php
-	echo '<h1>Welcome '.$_SESSION['gateway'].'</h1>';
-	echo '<h4 align="right"><a href="logout.php">Logout</a></h4>';
+	// echo '<h1>Welcome '.$_SESSION['gateway'].'</h1>';
+	// echo '<h4 align="right"><a href="logout.php">Logout</a></h4>';
 	include 'showPatients.php';
 ?>
 </div>

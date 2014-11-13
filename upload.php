@@ -68,7 +68,7 @@ if($gatewayType == 2) {
 }
 } else {
 	include('session.php');
-	include('session2.php');
+	//include('session2.php');
 	// echo "session check";
 }
 
@@ -88,7 +88,7 @@ if($gatewayType == 2) {
 <br>
 <div class = "container">
 <?php
-echo '<h2>'.$_SESSION['gateway'].'</h2>';
+
 if(isset($_POST['patientID'])) {
 // echo "coming from DX clients";
 $patient_table_id = $_POST['patientID'];
@@ -99,7 +99,8 @@ $conn = new mysqli("localhost","root","root","teleraddb");
 	
 $_SESSION['patientID'] = $row->patient_id;
 }
-echo '<h4>Patient: '.getNameByPatientID($_SESSION['patientID']).'</h4>';
+echo '<div style="clear: both"><h1 style="float: left">'.getNameByGateway($_SESSION['gateway']).'</h1><h3 style="float: right">'.getNameByPatientID($_SESSION['patientID']).'</h3></div><br>';
+
 // session_start();
 /*error_reporting(E_ERROR | E_PARSE);
 $doc = new DOMDocument();
@@ -313,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 }
 ?>
 <div id="progresss" class="progress progress-striped active" style="display:none;"><div id="barr" class="progress-bar progress-bar-success" 
-	role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%;";></div></div>
+	role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div></div>
 <div class="row">
 <div class="col-md-6">
 <div class="panel panel-primary">
@@ -321,13 +322,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 <h2>Upload as Files/zip to Server</h2>
 </div>
 <div class="panel-body">
-<form role="form" id="myForm" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+<form role="form" id="myFormUpload" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
 <div class="form-group">
-<input type="hidden" value="myForm" name="<?php echo ini_get("session.upload_progress.name"); ?>">
+<input type="hidden" value="myFormUpload" name="<?php echo ini_get("session.upload_progress.name"); ?>">
 <label for="inputfile"><h4>File(s) Input</h4></label>
 <input type="file" name="file[]" id="inputfile" multiple>
+<input class="btn btn-primary" type="submit" value="Start Upload">
 </div>
-<button type="submit" class="btn btn-primary" value="Upload Files">Submit</button>
+<!-- <button type="submit" class="btn btn-primary" form="myFormUpload" value="Upload Files">Upload</button> -->
 </form>
 <script type="text/javascript" src="script.js"></script>
 </div>
@@ -344,7 +346,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 <label for="inputfile1"><h4>Folder Input</h4></label>
 <input type="file" name="file[]" id="inputfile1" multiple="" directory="" webkitdirectory="" mozdirectory="">
 </div>
-<button type="submit" class="btn btn-primary" value="Upload Files">Submit</button>
+<button type="submit" class="btn btn-primary" form="myForm1" value="Upload Files">Upload</button>
 </form>
 </div>
 </div>

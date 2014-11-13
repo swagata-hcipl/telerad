@@ -1,7 +1,7 @@
 <?php
 session_start();
  
-$key = ini_get("session.upload_progress.prefix") . "myForm";
+$key = ini_get("session.upload_progress.prefix") . "myFormUpload";
 if (!empty($_SESSION[$key])) {
     $current = $_SESSION[$key]["bytes_processed"];
     $total = $_SESSION[$key]["content_length"];

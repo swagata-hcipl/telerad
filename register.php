@@ -89,6 +89,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 <td><label for="centerAddress2">Address2</label></td>
 <td><input class="form-control" id="centerAddress2" type="text" name="centerAddress2"/></td>
 </tr>
+<tr>
+<td><label for="centerpincode">Pincode</label></td>
+<td><input class="form-control" id="centerpincode" type="text" name="centerpincode"/></td>
+</tr>
 </div>
 <div class="form-group">
 <tr>

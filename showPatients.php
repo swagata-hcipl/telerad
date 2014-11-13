@@ -12,6 +12,8 @@
 <?php 
 // include('session.php');
 include('functions.php');
+echo '<h1>'.getNameByGateway($_SESSION['gateway']).'</h1>';
+echo '<h4 align="right"><a href="logout.php">Logout</a></h4>';
 $conn = new mysqli("localhost","root","root","teleraddb");
 $clientID = getIdByGateway($_SESSION['gateway']);
 $sql = "SELECT fk_patient FROM client_patient_table WHERE fk_client='$clientID'";
@@ -52,11 +54,37 @@ while($row = $result->fetch_object())
          <div class="modal-body">
             <form id="form-search" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<input type="hidden" name="pkid" id="pkID"></input>
-			Name: <input name="editName" type="text" id="editName" ></input><br>
+			<table>
+			<tbody>
+			<div class="form-group">
+			<tr>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="editName">Patient's Name</label></td>
+			<td><input class="form-control" id="editName" type="text" name="editName" required/></td>
+			</tr>
+			<tr>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="editDOB">Date of Birth</label></td>
+			<td><input class="form-control" id="editDOB" type="text" name="editDOB" required/></td>
+			</tr>
+			<tr>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="editadd1">Address1</label></td>
+			<td><input class="form-control" id="editadd1" type="text" name="editadd1"/></td>
+			</tr>
+			<tr>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="editadd2">Address2</label></td>
+			<td><input class="form-control" id="editadd2" type="text" name="editadd2"/></td>
+			</tr>
+			<!-- Name: <input name="editName" type="text" id="editName" ></input><br>
 			DOB: <input name="editDOB" type="text" id="editDOB" ></input><br>
 			Address1: <input name="editadd1" type="text" id="editadd1" ></input><br>
 			Address2: <input name="editadd2" type="text" id="editadd2" ></input><br>
 			<!-- <input name="email" type="text" id="email" style="width:100%"></input> -->
+			</div>
+			</tbody>
+			</table>
             </form>
          </div>
          <div class="modal-footer">
@@ -135,7 +163,7 @@ $('#myModal').on('show.bs.modal', function(e) {
                   &times;
             </button>
             <h4 class="modal-title" id="myModalLabel">
-               Register New Patient
+               Patient Registration
             </h4>
          </div>
          <div class="modal-body">
@@ -145,28 +173,38 @@ $('#myModal').on('show.bs.modal', function(e) {
 			<tbody>
 			<div class="form-group">
 			<tr>
-			<td><label for="patientName">Name of the Patient</label></td>
-			<td><input id="patientName" type="text" name="patientName" required/></td>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="patientName">Patient's Name</label></td>
+			<td><input class="form-control" id="patientName" type="text" name="patientName" required/></td>
 			</tr>
 			<tr>
-			<td><label for="dob">Date of Birth</label></td>
-			<td><input id="dob" type="text" name="dob" required/></td>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="dob">Date of Birth</label></td>
+			<td><input class="form-control" id="dob" type="text" name="dob" required/></td>
 			</tr>
 			<tr>
-			<td><label for="patientGender">Gender</label></td>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="patientGender">Gender</label></td>
 			<td><div class="input-group">
                   <input type="radio"  name="patientGender" value="1">Male</input>
                   <input type="radio" name="patientGender" value="2">Female</input>
-                  <input type="radio" name="patientGender" value="3">Others</input>
+                  <input type="radio" name="patientGender" value="3">Unspecified</input>
             </div></td>
 			</tr>
 			<tr>
-			<td><label for="patientAddress1">Address1</label></td>
-			<td><input id="patientAddress1" type="text" name="patientAddress1"/></td>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="patientAddress1">Address1</label></td>
+			<td><input class="form-control" id="patientAddress1" type="text" name="patientAddress1"/></td>
 			</tr>
 			<tr>
-			<td><label for="patientAddress2">Address2</label></td>
-			<td><input id="patientAddress2" type="text" name="patientAddress2"/></td>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="patientAddress2">Address2</label></td>
+			<td><input class="form-control" id="patientAddress2" type="text" name="patientAddress2"/></td>
+			</tr>
+			<tr>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="patientPincode">Pincode</label></td>
+			<td><input class="form-control" id="patientPincode" type="text" name="patientPincode" required/></td>
 			</tr>
 			</div>
 			<!--<div class="form-group">

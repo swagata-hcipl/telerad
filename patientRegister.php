@@ -11,14 +11,15 @@ if(isset($_REQUEST))
 	$patientGender=$_POST['patientGender'];
 	$patientAddress1=$_POST['patientAddress1'];
 	$patientAddress2=$_POST['patientAddress2'];
+	$patientPincode=$_POST['patientPincode'];
 	$patientUsername=$_SESSION['gateway'];
 	date_default_timezone_set('Asia/Kolkata');
 	$datetime = date('Y-m-d H:i:s');
 	
-	$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, address1, address2, datetime) VALUES ('$patientUsername', '$patientName', '$dob', '$patientGender', '$patientAddress1', '$patientAddress2', '$datetime')";
+	$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, address1, address2, datetime, pincode) VALUES ('$patientUsername', '$patientName', '$dob', '$patientGender', '$patientAddress1', '$patientAddress2', '$datetime', $patientPincode)";
 	$result = $conn->query($sql);
 	if($result) {
-		echo 'successful';
+			echo 'successful';
 			$sql = "SELECT id FROM patient_table WHERE patient_id='$patientUsername'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_object();

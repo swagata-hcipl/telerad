@@ -7,6 +7,14 @@ function getGatewayById($fk_client) {
 	return $row->gateway;
 }
 
+function getNameByGateway($gateway) {
+	$conn = new mysqli("localhost","root","root","teleraddb");
+	$sql = "SELECT name FROM client_table WHERE gateway='$gateway'";
+	$result = $conn->query($sql);
+	$row = $result->fetch_object();
+	return $row->name;
+}
+
 function getIdByGateway($gateway) {
 	$conn = new mysqli("localhost","root","root","teleraddb");
 	$sql = "SELECT id FROM client_table WHERE gateway='$gateway'";

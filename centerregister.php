@@ -8,6 +8,7 @@ $centerName = $_POST['centerName'];
 $centerType = $_POST['centerType'];
 $centerAddress1 = $_POST['centerAddress1'];
 $centerAddress2 = $_POST['centerAddress2'];
+$centerpincode = $_POST['centerpincode'];
 date_default_timezone_set('Asia/Kolkata');
 $datetime = date('Y-m-d H:i:s');
 $centerUsername = $_POST['centerUsername'];
@@ -19,7 +20,7 @@ if ($centerPassword != $centerPassword1) {
 else {
 	$password = hash('sha256', $centerPassword);
 }
-$sql = "INSERT INTO client_table (gateway, name, type, address1, address2, datetime) VALUES ('$centerUsername', '$centerName', '$centerType', '$centerAddress1', '$centerAddress2', '$datetime')";
+$sql = "INSERT INTO client_table (gateway, name, type, address1, address2, datetime, pincode) VALUES ('$centerUsername', '$centerName', '$centerType', '$centerAddress1', '$centerAddress2', '$datetime', '$centerpincode')";
 $result = $conn->query($sql);
 if($result) {
 	// echo 'insert into client table successful<br>';

@@ -1,5 +1,5 @@
 function toggleBarVisibility() {
-    var e = document.getElementById("progressss");
+    var e = document.getElementById("progresss");
     e.style.display = (e.style.display == "block") ? "none" : "block";
 }
  
@@ -24,10 +24,10 @@ function sendRequest() {
 function handleResponse(http) {
     var response;
     if (http.readyState == 4) {
-        response = http.responseText/2;
+        response = http.responseText;
 		// document.writeln(response);
 		// document.getElementById("status").innerHTML = response + "%";
-        document.getElementById("barrr").style.width = response + "%";
+        document.getElementById("barr").style.width = response + "%";
         
         if (response < 100) {
             setTimeout("sendRequest()", 1000);
