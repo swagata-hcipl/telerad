@@ -1,5 +1,5 @@
 function toggleBarVisibility() {
-    var e = document.getElementById("progresss");
+    var e = document.getElementById("progressss");
     e.style.display = (e.style.display == "block") ? "none" : "block";
 }
  
@@ -24,13 +24,13 @@ function sendRequest() {
 function handleResponse(http) {
     var response;
     if (http.readyState == 4) {
-        response = http.responseText;
+        response = http.responseText/2;
 		// document.writeln(response);
 		// document.getElementById("status").innerHTML = response + "%";
-        document.getElementById("barr").style.width = response + "%";
+        document.getElementById("barr_upload").style.width = response + "%";
         
         if (response < 100) {
-            setTimeout("sendRequest()", 1000);
+            setTimeout("sendRequest()", 10);
         }
         else {
             //toggleBarVisibility();
@@ -41,10 +41,10 @@ function handleResponse(http) {
  
 function startUpload() {
     toggleBarVisibility();
-    setTimeout("sendRequest()", 1000);
+    setTimeout("sendRequest()", 10);
 }
  
 (function () {
-    document.getElementById("myForm").onsubmit = startUpload;
+    document.getElementById("myFormUpload").onsubmit = startUpload;
 	// document.write("RESPONSE");
 })();

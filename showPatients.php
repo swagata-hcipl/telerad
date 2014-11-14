@@ -244,45 +244,45 @@ $('#myModal').on('show.bs.modal', function(e) {
          type: "post",
          url: "patientRegister.php",
          success: function(data){
-			  // alert("Data Save: "+data);
-			  //alert("name: "+patientName);
-			  //alert("dob: "+patientDOB);
-			  // alert("address: "+patientAddress1);
-			  // document.getElementById("patientRegisterForm").reset();
-              // document.getElementById("closeIcon").click();
-			  /*var patientTable = document.getElementById("patientTable");
-			  /*var row = patientTable.insertRow(-1);
-			  row.insertCell(0).innerHTML = patientName;
-			  row.insertCell(1).innerHTML = patientDOB;
-			  row.insertCell(2).innerHTML = patientGender;
-			  row.insertCell(3).innerHTML = "Edit";
-			  row.insertCell(4).innerHTML = "Studies";*/
-			  // location.reload("true");
-			  // document.getElementById(mess11).innerHTML=inht;
-			  var newRow = '<tr><td id="name'+data+'">'+patientName+'</td><td id = "dob'+data+'">'+patientDOB+'</td><td>'+patientGender+'</td><td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientAddress1+'" data-add2="'+patientAddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td><td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td></tr>';
-			  // var newRow1 = '<td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientaddress1+'" '; 
-			  // var newRow3 = 'data-add2="'+patientaddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td>';
-			  // var newRow2 = '<tr><td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td></tr>';
-			  // alert("td : "+newRow);
-			  
-			  $('#patientTable').DataTable().row.add($(newRow)).draw();// "<tr><td id=\"name"+data+"\">"+patientName+"</td><td id = \"dob"+data+"\">"+patientDOB+"</td><td>"+patientGender+"</td><td id = \"cmnt"+data+"\"><button id = \""+data+"\" class=\"open-MyModal btn btn-primary\" data-toggle=\"modal\" data-name=\""+patientName+"\" data-add1=\""+patientaddress1+"\" data-add2=\""+patientaddress2+"\" data-dob=\""+patientDOB+"\" data-row-id=\""+data+"\" data-target=\"#myModal\">Edit</button></td><td><form action=\"upload.php\" method=\"POST\"><input type=\"hidden\" name=\"patientID\" value=\""+data+"\"/><button class=\"btn btn-primary\">Studies</button></form></td></tr>")).draw();
-			  //document.getElementById("closeIcon").click();
-			  /*var namevar = '<td id = "name'+data+'">'+patientName+'</td>';
-			  var dobvar = '<td id = "dob'+data+'">'+patientDOB+'</td>';
-			  var gendervar = '<td>'+patientGender+'</td>';
-			  var editvar = '<td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientAddress1+'" data-add2="'+patientAddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td>';
-			  var studiesvar = '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td>';
-			  $('#patientTable').DataTable().row.add([namevar,dobvar,gendervar,editvar,studiesvar]).draw();
-			  /*var namevar1 = 'hello', dobvar1 = 'satya', gendervar1='how', editvar1='are', studiesvar1='you'; 
-			  $('#patientTable').DataTable().fnAddData( [
-				namevar1,
-				dobvar1,
-				gendervar1,
-				editvar1,
-				studiesvar1
-			  ] ).draw();*/
-			  document.getElementById("closeIcon").click();
-         }
+            // alert("Data Save: "+data);
+            //alert("name: "+patientName);
+            //alert("dob: "+patientDOB);
+            // alert("address: "+patientAddress1);
+            // document.getElementById("patientRegisterForm").reset();
+            // document.getElementById("closeIcon").click();
+            /*var patientTable = document.getElementById("patientTable");
+            /*var row = patientTable.insertRow(-1);
+            row.insertCell(0).innerHTML = patientName;
+            row.insertCell(1).innerHTML = patientDOB;
+            row.insertCell(2).innerHTML = patientGender;
+            row.insertCell(3).innerHTML = "Edit";
+            row.insertCell(4).innerHTML = "Studies";*/
+            // location.reload("true");
+            // document.getElementById(mess11).innerHTML=inht;
+            var newRow = '<tr><td id="name'+data+'">'+patientName+'</td><td id = "dob'+data+'">'+patientDOB+'</td><td>'+patientGender+'</td><td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientAddress1+'" data-add2="'+patientAddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td><td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td></tr>';
+            // var newRow1 = '<td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientaddress1+'" '; 
+            // var newRow3 = 'data-add2="'+patientaddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td>';
+            // var newRow2 = '<tr><td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td></tr>';
+            // alert("td : "+newRow);
+
+            $('#patientTable').DataTable().row.add($(newRow)).draw();// "<tr><td id=\"name"+data+"\">"+patientName+"</td><td id = \"dob"+data+"\">"+patientDOB+"</td><td>"+patientGender+"</td><td id = \"cmnt"+data+"\"><button id = \""+data+"\" class=\"open-MyModal btn btn-primary\" data-toggle=\"modal\" data-name=\""+patientName+"\" data-add1=\""+patientaddress1+"\" data-add2=\""+patientaddress2+"\" data-dob=\""+patientDOB+"\" data-row-id=\""+data+"\" data-target=\"#myModal\">Edit</button></td><td><form action=\"upload.php\" method=\"POST\"><input type=\"hidden\" name=\"patientID\" value=\""+data+"\"/><button class=\"btn btn-primary\">Studies</button></form></td></tr>")).draw();
+            //document.getElementById("closeIcon").click();
+            /*var namevar = '<td id = "name'+data+'">'+patientName+'</td>';
+            var dobvar = '<td id = "dob'+data+'">'+patientDOB+'</td>';
+            var gendervar = '<td>'+patientGender+'</td>';
+            var editvar = '<td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientAddress1+'" data-add2="'+patientAddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td>';
+            var studiesvar = '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td>';
+            $('#patientTable').DataTable().row.add([namevar,dobvar,gendervar,editvar,studiesvar]).draw();
+            /*var namevar1 = 'hello', dobvar1 = 'satya', gendervar1='how', editvar1='are', studiesvar1='you'; 
+            $('#patientTable').DataTable().fnAddData( [
+            namevar1,
+            dobvar1,
+            gendervar1,
+            editvar1,
+            studiesvar1
+            ] ).draw();*/
+            document.getElementById("closeIcon").click();
+            }
 	});
 });
 </script>

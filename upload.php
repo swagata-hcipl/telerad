@@ -199,7 +199,7 @@ function dcmsndFucntion($tmpkey,$key, $studyArray) {
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 	echo '<div class="alert alert-info" role="alert" id="information" style="width"></div>';
-	echo '<div id="progresss" class="progress progress-striped active" style="display:none;"><div id="barr" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%;"></div></div>';
+	echo '<div id="progresss" class="progress progress-striped active"><div id="barr" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%;"></div></div>';
 	$start_time = microtime('true');
 	
 	$totalSize=0;
@@ -260,12 +260,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 	echo '<script language="javascript">';
 	echo 'document.getElementById("progresss").className = "progress progress-striped"';
 	echo '</script>';
-	/*echo '<script language="javascript">';
-	echo 'document.getElementById("progresss").setAttribute("style","display:none")';
-	echo '</script>';*/
 	echo '<script language="javascript">';
-	echo 'document.getElementById("barr").setAttribute("style","width:0%")';
+	echo 'document.getElementById("progresss").setAttribute("style","display:none")';
 	echo '</script>';
+	/*echo '<script language="javascript">';
+	echo 'document.getElementById("barr").setAttribute("style","width:0%")';
+	echo '</script>';*/
 	ob_flush();
 	ob_end_flush();
 	$end_time = microtime('true');
@@ -318,7 +318,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 }
 ?>
 <br>
-<div id="progresss" class="progress progress-striped active" style="display:none;"><div id="barr" class="progress-bar progress-bar-success" 
+<div id="progressss" class="progress progress-striped active" style="display:none;"><div id="barr_upload" class="progress-bar progress-bar-success" 
 	role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div></div>
 <div class="row">
 <div class="col-md-6">
