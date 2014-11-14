@@ -1,6 +1,18 @@
 <!DOCTYPE html>
+<html>
+<head>
+<title>Dicom Files Upload to PACS</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link href="datatables/css/jquery.dataTables.min.css" rel="stylesheet" media="screen">
+<script src="datatables/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<p id="counter" style='display:none' value='0'></p>
+<br>
+<div class = "container">
 <?php
-
 // include('session2.php');
 include('functions.php');
 ?>
@@ -20,11 +32,11 @@ if($gatewayType == 2) {
 	$result = $conn->query($sql);
 	session_start();
 	if(!$result->num_rows) {
-		echo "new emr patient";
+		// echo "new emr patient";
 		$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, datetime, exit_id) VALUES ('$patientID', '$patientID', '1990-01-01', '11', '$datetime', '$patientID')";
 		$result = $conn->query($sql);
 		if($result) {
-			echo 'successful';
+			// echo 'successful';
 			$sql = "SELECT id FROM patient_table WHERE exit_id='$patientID'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_object();
@@ -64,29 +76,19 @@ if($gatewayType == 2) {
 		$row = $result->fetch_object();
 		$_SESSION['patientID'] = $row->patient_id;
 	}
-	// die();
+	echo '<a href="emrexit.php" id="registerLink" class="btn btn-primary  pull-right">Exit</a>';
 }
+
 } else {
 	include('session.php');
 	//include('session2.php');
-	// echo "session check";
+	echo '<a href="profile.php" id="registerLink" class="btn btn-primary btn-lg">Patients</a>';
+	echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
 }
 
 ?>
 
-<html>
-<head>
-<title>Dicom Files Upload to PACS</title>
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<link href="datatables/css/jquery.dataTables.min.css" rel="stylesheet" media="screen">
-<script src="datatables/js/jquery.dataTables.min.js"></script>
-</head>
-<body>
-<p id="counter" style='display:none' value='0'></p>
-<br>
-<div class = "container">
+
 <?php
 
 if(isset($_POST['patientID'])) {
@@ -99,8 +101,7 @@ $conn = new mysqli("localhost","root","root","teleraddb");
 	
 $_SESSION['patientID'] = $row->patient_id;
 }
-echo '<a href="profile.php" id="registerLink" class="btn btn-primary btn-lg">Patients</a>';
-echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
+
 echo '<div style="clear: both"><h1 style="float: left">'.getNameByGateway($_SESSION['gateway']).'</h1><h3 style="float: right">'.getNameByPatientID($_SESSION['patientID']).'</h3></div><br>';
 
 // session_start();

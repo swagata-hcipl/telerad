@@ -14,7 +14,7 @@
 include('functions.php');
 echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
 echo '<h1>'.getNameByGateway($_SESSION['gateway']).'</h1>';
-
+echo '<h1>'.$_SESSION['gateway'].'</h1>';
 echo '<br>';
 $conn = new mysqli("localhost","root","root","teleraddb");
 $clientID = getIdByGateway($_SESSION['gateway']);
@@ -108,7 +108,7 @@ while($row = $result->fetch_object())
   var mess11 = str.concat(mess1);
   var mess22 = str1.concat(mess1);
   var mess33 = str2.concat(mess1);
-  var inht = "<button id = \"".concat(mess1,"\" class=\"open-MyModal btn btn-primary btn-sm\" data-toggle=\"modal\" data-name=\"",mess,"\" data-add1=\"",mess3,"\" data-add2=\"",mess4,"\" data-dob=\"",mess2,"\" data-row-id=\"",mess1,"\"  data-target=\"#myModal\">Edit</button>");
+  var inht = "<button id = \"".concat(mess1,"\" class=\"open-MyModal btn btn-primary\" data-toggle=\"modal\" data-name=\"",mess,"\" data-add1=\"",mess3,"\" data-add2=\"",mess4,"\" data-dob=\"",mess2,"\" data-row-id=\"",mess1,"\"  data-target=\"#myModal\">Edit</button>");
   // var str1 = "	<button id = "'.$row['id'].'" class="open-MyModal btn btn-primary btn-xs pull-right" data-toggle="modal" data-id="'.$row['id'].'" data-target="#myModal">Edit</button>";
   $.ajax({
          data: data,
@@ -169,16 +169,16 @@ $('#myModal').on('show.bs.modal', function(e) {
 			</tr>
 			<tr>
 			<td style="width:10%"></td>
-			<td style="width:40%"><label for="dob">Date of Birth</label></td>
-			<td><input class="form-control" id="dob" type="date" name="dob" required/></td>
+			<td style="width:40%"><label for="patientdob">Date of Birth</label></td>
+			<td><input class="form-control" id="patientdob" type="date" name="dob" required/></td>
 			</tr>
 			<tr>
 			<td style="width:10%"></td>
 			<td style="width:40%"><label for="patientGender">Gender</label></td>
-			<td><div class="input-group">
-                  <input type="radio"  name="patientGender" value="1">Male</input>
-                  <input type="radio" name="patientGender" value="2">Female</input>
-                  <input type="radio" name="patientGender" value="3">Unspecified</input>
+			<td><div class="input-group" id="patientGender">
+                  <input type="radio" id="patientgender1" name="patientGender" value="1">Male</input>
+                  <input type="radio" id="patientgender2" name="patientGender" value="2">Female</input>
+                  <input type="radio" id="patientgender3" name="patientGender" value="3">Unspecified</input>
             </div></td>
 			</tr>
 			<tr>
@@ -194,7 +194,7 @@ $('#myModal').on('show.bs.modal', function(e) {
 			<tr>
 			<td style="width:10%"></td>
 			<td style="width:40%"><label for="patientPincode">Pincode</label></td>
-			<td><input class="form-control" id="patientPincode" type="number" name="patientPincode" maxlength="6" required/></td>
+			<td><input class="form-control" id="patientPincode" type="text" name="patientPincode" maxlength="6" required/></td>
 			</tr>
 			</div>
 			</tbody>
@@ -211,15 +211,29 @@ $('#myModal').on('show.bs.modal', function(e) {
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-$(document).ready(function() {
-    var t = $('#patientTable').DataTable();
-} );
+
  $(document).on('click','#patientRegister',function(e) {
   // document.write($("form-search").serialize());
   var data = $("#patientRegisterForm").serialize();
   var patientName = document.getElementById("patientName").value;
-  var patientDOB = document.getElementById("dob").value;
-  var patientGender = (document.getElementById("patientGender").value==1)?"Male":"Female";
+  var patientDOB = document.getElementById("patientdob").value;
+  //alert("name: "+patientName);
+  //alert("dob: "+patientDOB);
+  if (document.getElementById('patientgender1').checked) {
+	var patientGender = "Male";
+  } else if (document.getElementById('patientgender2').checked) {
+	var patientGender = "Female";
+  } else if (document.getElementById('patientgender3').checked) {
+	var patientGender = "Unspecified";
+  }
+  // alert("gender: "+patientGender);
+  /*var patientGender = (document.getElementByName("patientGender").value==1)?"Male":"Female";
+  alert("gender: "+patientGender);
+  /*alert("name: "+patientName);
+			  alert("dob: "+patientDOB);*/
+			  
+  var patientAddress1 = document.getElementById("patientAddress1").value;
+  var patientAddress2 = document.getElementById("patientAddress2").value;
   // var mess1 = document.getElementById("pkID").value;
   // var str = "cmnt";
   // var mess11 = str.concat(mess1);
@@ -230,11 +244,14 @@ $(document).ready(function() {
          type: "post",
          url: "patientRegister.php",
          success: function(data){
-			  // alert("Data Save: ");
+			  // alert("Data Save: "+data);
+			  //alert("name: "+patientName);
+			  //alert("dob: "+patientDOB);
+			  // alert("address: "+patientAddress1);
 			  // document.getElementById("patientRegisterForm").reset();
-              document.getElementById("closeIcon").click();
+              // document.getElementById("closeIcon").click();
 			  /*var patientTable = document.getElementById("patientTable");
-			  var row = patientTable.insertRow(-1);
+			  /*var row = patientTable.insertRow(-1);
 			  row.insertCell(0).innerHTML = patientName;
 			  row.insertCell(1).innerHTML = patientDOB;
 			  row.insertCell(2).innerHTML = patientGender;
@@ -242,17 +259,35 @@ $(document).ready(function() {
 			  row.insertCell(4).innerHTML = "Studies";*/
 			  // location.reload("true");
 			  // document.getElementById(mess11).innerHTML=inht;
-			  t.fnAddData( [
-				"<td id = \"name"+data+"\">"+patientName+"</td>",
-				"<td id = \"name"+data+"\">"+patientDOB+"</td>",
-				"<td>"+patientGender+"</td>",
-				"<td id = \"cmnt"+data+"\"><button id = \""+data+"\" class=\"open-MyModal btn btn-primary\" data-toggle=\"modal\" data-name=\""+patientName+"\" data-add1=\""+patientaddress1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>,
-				counter +'.5'
-			  ] );
+			  var newRow = '<tr><td id="name'+data+'">'+patientName+'</td><td id = "dob'+data+'">'+patientDOB+'</td><td>'+patientGender+'</td><td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientAddress1+'" data-add2="'+patientAddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td><td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td></tr>';
+			  // var newRow1 = '<td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientaddress1+'" '; 
+			  // var newRow3 = 'data-add2="'+patientaddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td>';
+			  // var newRow2 = '<tr><td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td></tr>';
+			  // alert("td : "+newRow);
+			  
+			  $('#patientTable').DataTable().row.add($(newRow)).draw();// "<tr><td id=\"name"+data+"\">"+patientName+"</td><td id = \"dob"+data+"\">"+patientDOB+"</td><td>"+patientGender+"</td><td id = \"cmnt"+data+"\"><button id = \""+data+"\" class=\"open-MyModal btn btn-primary\" data-toggle=\"modal\" data-name=\""+patientName+"\" data-add1=\""+patientaddress1+"\" data-add2=\""+patientaddress2+"\" data-dob=\""+patientDOB+"\" data-row-id=\""+data+"\" data-target=\"#myModal\">Edit</button></td><td><form action=\"upload.php\" method=\"POST\"><input type=\"hidden\" name=\"patientID\" value=\""+data+"\"/><button class=\"btn btn-primary\">Studies</button></form></td></tr>")).draw();
+			  //document.getElementById("closeIcon").click();
+			  /*var namevar = '<td id = "name'+data+'">'+patientName+'</td>';
+			  var dobvar = '<td id = "dob'+data+'">'+patientDOB+'</td>';
+			  var gendervar = '<td>'+patientGender+'</td>';
+			  var editvar = '<td id = "cmnt'+data+'"><button id = "'+data+'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'+patientName+'" data-add1="'+patientAddress1+'" data-add2="'+patientAddress2+'" data-dob="'+patientDOB+'" data-row-id="'+data+'" data-target="#myModal">Edit</button></td>';
+			  var studiesvar = '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'+data+'"/><button class="btn btn-primary">Studies</button></form></td>';
+			  $('#patientTable').DataTable().row.add([namevar,dobvar,gendervar,editvar,studiesvar]).draw();
+			  /*var namevar1 = 'hello', dobvar1 = 'satya', gendervar1='how', editvar1='are', studiesvar1='you'; 
+			  $('#patientTable').DataTable().fnAddData( [
+				namevar1,
+				dobvar1,
+				gendervar1,
+				editvar1,
+				studiesvar1
+			  ] ).draw();*/
+			  document.getElementById("closeIcon").click();
          }
+	});
 });
- });
 </script>
-
- 
- 
+<script type="text/javascript">
+ $(document).ready(function() {
+    var t = $('#patientTable').DataTable();
+} );
+ </script>

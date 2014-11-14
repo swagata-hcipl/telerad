@@ -19,12 +19,12 @@ if(isset($_REQUEST))
 	$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, address1, address2, datetime, pincode) VALUES ('$patientUsername', '$patientName', '$dob', '$patientGender', '$patientAddress1', '$patientAddress2', '$datetime', $patientPincode)";
 	$result = $conn->query($sql);
 	if($result) {
-			echo 'successful';
+			//echo 'successful';
 			$sql = "SELECT id FROM patient_table WHERE patient_id='$patientUsername'";
 			$result = $conn->query($sql);
 			$row = $result->fetch_object();
 			$patient_id = $_SESSION['gateway'].$row->id;
-			echo $patient_id;
+			// echo $patient_id;
 			$sql="UPDATE patient_table SET patient_id ='$patient_id' WHERE id='$row->id'";
 			$result = $conn->query($sql);
 			if($result) {
@@ -42,7 +42,7 @@ if(isset($_REQUEST))
 	$conn = new mysqli("localhost","root","root","teleraddb");
 	$clientID = getIdByGateway($_SESSION['gateway']);
 	$patientID = getIdByPatientID($patient_id);
-	// echo $clientID;
+	echo $patientID;
 	date_default_timezone_set('Asia/Kolkata');
 	$datetime = date('Y-m-d H:i:s');
 	$sql = "INSERT INTO client_patient_table (fk_client, fk_patient, datetime) VALUES ('$clientID', '$patientID', '$datetime')";
@@ -58,7 +58,7 @@ if(isset($_REQUEST))
 	} else {
 		die('Error :'.$conn->error);
 	}
-	echo 'successful';
+	// echo 'successful';
 	$conn->close();
 	
 }
