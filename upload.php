@@ -12,310 +12,12 @@
 <p id="counter" style='display:none' value='0'></p>
 <br>
 <div class = "container">
-<?php
-// include('session2.php');
-include('functions.php');
-?>
-<?php
-if(!isset($_SESSION['patientID']) && isset($_POST['pid'])) {
-$gateway = $_POST['gateway'];
-$patientID = $_POST['pid'];
-$conn = new mysqli("localhost","root","root","teleraddb");
-$sql = "SELECT type FROM client_table WHERE gateway='$gateway'";
-$result = $conn->query($sql);
-$row = $result->fetch_object();
-$gatewayType = $row->type;
-date_default_timezone_set('Asia/Kolkata');
-$datetime = date('Y-m-d H:i:s');
-if($gatewayType == 2) {
-	$sql = "SELECT patient_id FROM patient_table WHERE exit_id='$patientID'";
-	$result = $conn->query($sql);
-	session_start();
-	if(!$result->num_rows) {
-		// echo "new emr patient";
-		$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, datetime, exit_id) VALUES ('$patientID', '$patientID', '1990-01-01', '11', '$datetime', '$patientID')";
-		$result = $conn->query($sql);
-		if($result) {
-			// echo 'successful';
-			$sql = "SELECT id FROM patient_table WHERE exit_id='$patientID'";
-			$result = $conn->query($sql);
-			$row = $result->fetch_object();
-			$patient_id = $gateway.$row->id;
-			echo $patient_id;
-			$sql="UPDATE patient_table SET patient_id ='$patient_id' WHERE id='$row->id'";
-			$result = $conn->query($sql);
-			if($result) {
-				// echo 'successful';
-			} else {
-				die('Error :'.$conn->error);
-			}
-			$_SESSION['gateway'] = $gateway;
-			$_SESSION['patientID'] = $patient_id;
-		} else {
-			die('Error :'.$conn->error);
-		}
-		
-		
-		// $conn = new mysqli("localhost","root","root","teleraddb");
-		$clientID = getIdByGateway($_SESSION['gateway']);
-		$patientID = getIdByPatientID($_SESSION['patientID']);
-		// echo $clientID;
-		date_default_timezone_set('Asia/Kolkata');
-		$datetime = date('Y-m-d H:i:s');
-		$sql = "INSERT INTO client_patient_table (fk_client, fk_patient, datetime) VALUES ('$clientID', '$patientID', '$datetime')";
-		$result = $conn->query($sql);
-		if($result) {
-		} else {
-			die('Error :'.$conn->error);
-		}
-		$conn->close();
-	}
-	else {
-		// echo "existing emr patient";
-		$_SESSION['gateway'] = $gateway;
-		$row = $result->fetch_object();
-		$_SESSION['patientID'] = $row->patient_id;
-	}
-	echo '<a href="emrexit.php" id="registerLink" class="btn btn-primary  pull-right">Exit</a>';
-}
-
-} else {
-	include('session.php');
-	//include('session2.php');
-	echo '<a href="profile.php" id="registerLink" class="btn btn-primary btn-lg">Patients</a>';
-	echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
-}
-
-?>
-
-
-<?php
-
-if(isset($_POST['patientID'])) {
-// echo "coming from DX clients";
-$patient_table_id = $_POST['patientID'];
-$conn = new mysqli("localhost","root","root","teleraddb");
-	$sql = "SELECT patient_id FROM patient_table WHERE id='$patient_table_id'";
-	$result = $conn->query($sql);
-	$row = $result->fetch_object();
-	
-$_SESSION['patientID'] = $row->patient_id;
-}
-
-echo '<div style="clear: both"><h1 style="float: left">'.getNameByGateway($_SESSION['gateway']).'</h1><h3 style="float: right">'.getNameByPatientID($_SESSION['patientID']).'</h3></div><br>';
-
-// session_start();
-/*error_reporting(E_ERROR | E_PARSE);
-$doc = new DOMDocument();
-$doc->validateOnParse = true;
-$doc->loadHTMLFile('upload.php');
-$tagname = $doc->getElementById('counter');
-$counter = $tagname->getAttribute('value');
-echo $counter;
-if($_SERVER['REQUEST_METHOD']=="POST" and isset($_POST['patientID']) and isset($_SESSION['counter'])) {
-	$_SESSION['gateway'] = $_POST['gateway'];
-	$temp_counter = $_SESSION['counter'] + 1;
-	$_SESSION[$temp_counter]['patientID'] = $_POST['patientID'];
-	$_SESSION['counter'] = $temp_counter;
-	$tagname = $doc->getElementById('counter');
-	$counter = $tagname->setAttribute('value',$temp_counter);
-}
-else if($_SERVER['REQUEST_METHOD']=="POST" and isset($_POST['patientID'])) {
-	$_SESSION['gateway'] = $_POST['gateway'];
-	$_SESSION[0]['patientID'] = $_POST['patientID'];
-	$_SESSION['counter'] = 0;
-}
-else {
-	//$counter= document.getElementById('counter').value;
-}*/
-
-?>
 <div class = "row">
 <div class = "col-md-12">
 <?php
-
-$total=0;
-$count=0;
-$studyArray = array();
- 
-// This is PHP function to convert a user-supplied URL to just the domain name,
-// which I use as the link text.
- 
-// Remember you still need to use htmlspecialchars() or similar to escape the
-// result.
- 
-function url_to_domain($url)
-{
-    $host = @parse_url($url, PHP_URL_HOST);
- 
-    // If the URL can't be parsed, use the original URL
-    // Change to "return false" if you don't want that
-    if (!$host)
-        $host = $url;
- 
-    // The "www." prefix isn't really needed if you're just using
-    // this to display the domain to the user
-    if (substr($host, 0, 4) == "www.")
-        $host = substr($host, 4);
- 
-    // You might also want to limit the length if screen space is limited
-    if (strlen($host) > 50)
-        $host = substr($host, 0, 47) . '...';
- 
-    return $host;
-}
-
-function dcmsndFucntion($tmpkey,$key, $studyArray) {
-	$cmd_str = 'dcmsnd DCM4CHEE@localhost:11112 ';
-	$cmd_str .= $tmpkey;
-	$output = array();
-	exec($cmd_str,$output,$return);
-	// echo $cmd_str.'<br>';
-	// echo $return.'<br>';
-	if(!$return) {
-		GLOBAL $count;
-		$count++;
-		$objStr = substr($output[4],19);
-		// echo $objStr."<br>";
-		if(!in_array($objStr,$studyArray)) {
-		GLOBAL $studyArray;
-		$studyArray[] = $objStr;
-		}
-	}
-	else {
-		echo '<div class="alert alert-danger" role="alert">Error in uploading the file to PACS '.$key.'</div>';
-	}
-	GLOBAL $total;
-	GLOBAL $count;
-	$percent = intval(($count/$total * 50)+50)."%";
-	echo '<script language="javascript">
-	document.getElementById("information").innerHTML="'.$count.'/'.$total.' images(s) processed.";
-	document.getElementById("barr").setAttribute("style","width:'.$percent.'");
-	</script>';
-	// This is for the buffer achieve the minimum size in order to flush data
-	echo str_repeat(' ',1024*64);
-	// Send output to browser immediately
-	ob_flush();
-}
-if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
-	echo '<div class="alert alert-info" role="alert" id="information" style="width"></div>';
-	echo '<div id="progresss" class="progress progress-striped active"><div id="barr" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%;"></div></div>';
-	$start_time = microtime('true');
-	
-	$totalSize=0;
-	
-	foreach($_FILES['file']['size'] as $eachFile)
-	{
-		 if($eachFile > 0)
-			$total++;
-	}
-	foreach ($_FILES["file"]["error"] as $key => $error) {
-		if ($error == UPLOAD_ERR_OK) {
-			$zip = new ZipArchive;
-			$extName = explode('.',$_FILES['file']['name'][$key]);
-			$ext = 'none';
-			if(array_key_exists(1,$extName))
-				$ext = $extName[1];
-			if($ext!='none' && $ext == 'zip') {
-				$res = $zip->open($_FILES['file']['tmp_name'][$key]);
-				if($res==TRUE) {
-					$zip->extractTo('./');
-					$total--;
-					$total += $zip->numFiles;
-					for($i = 0; $i < $zip->numFiles; $i++) {
-						dcmsndFucntion($zip->getNameIndex($i), $zip->getNameIndex($i), $studyArray);
-						unlink($zip->getNameIndex($i));
-					}
-					$zip->close();	
-				} else {
-				echo '<div class="alert alert-warning" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>File you have uploaded is not a zip file but has zip extension</div>';
-				}
-			} else {
-					dcmsndFucntion($_FILES['file']['tmp_name'][$key], $_FILES['file']['name'][$key], $studyArray);
-			}
-		}
-		else {
-			//echo 'Error in uploading the file to server '.$_FILES['file']['name'][$key];
-			echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error in uploading the file to server '.$_FILES['file']['name'][$key].'</div>';
-			switch($_FILES['file']['error']) {
-				case 1:
-					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-1: The uploaded file exceeds the maximum file size of 50 MB</div>';
-				case 2:
-					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-2: The uploaded file exceeds the maximum file size of 50 MB</div>';
-				case 3:
-					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-3: The uploaded file was only partially uploaded</div>';
-				case 4:
-					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-4: No file was uploaded</div>';
-				case 5:
-					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-5: Contact for Help</div>';
-				case 6:
-					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-6: Contact for Help</div>';
-				case 7:
-					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-7: Contact for Help</div>';
-				case 8:
-					echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error Code-8: Contact for Help</div>';
-			}
-		}
-	}
-	echo '<script language="javascript">';
-	echo 'document.getElementById("progresss").className = "progress progress-striped"';
-	echo '</script>';
-	echo '<script language="javascript">';
-	echo 'document.getElementById("progresss").setAttribute("style","display:none")';
-	echo '</script>';
-	/*echo '<script language="javascript">';
-	echo 'document.getElementById("barr").setAttribute("style","width:0%")';
-	echo '</script>';*/
-	ob_flush();
-	ob_end_flush();
-	$end_time = microtime('true');
-	$upload_time = $end_time - $start_time;
-	$conn = mysql_connect('localhost:3306','root','root');
-	if(! $conn )
-	{
-	  die('Could not connect: ' . mysql_error());
-	}
-	foreach($studyArray as $value) {
-		if(!empty($value)) {
-			$sql = 'SELECT pk FROM study WHERE study_iuid="'.$value.'"';
-			mysql_select_db('pacsdb');
-			$retval = mysql_query( $sql, $conn );
-			$row = mysql_fetch_array($retval, MYSQL_ASSOC);
-			$pacsid = $row['pk'];
-			//echo 'pacsid = '.$pacsid.'<br>';
-			// echo 'counter = '.$counter.'<br>';
-			$ppid = getIdByPatientID($_SESSION['patientID']);
-			//echo 'ppid = '.$ppid.'<br>';
-			//echo $_SESSION['gateway'];
-			$cpid = getIdByGateway($_SESSION['gateway']);
-			//echo 'cpid = '.$cpid.'<br>';
-			$sql = 'SELECT id FROM client_patient_table WHERE fk_client="'.$cpid.'" AND fk_patient="'.$ppid.'"';
-			mysql_select_db('teleraddb');
-			$retval = mysql_query( $sql, $conn );
-			$row = mysql_fetch_array($retval, MYSQL_ASSOC);
-			$cppid = $row['id'];
-			//echo $cppid.'<br>';
-			$sql = 'SELECT id FROM study_table WHERE fk_client_patient="'.$cppid.'" AND fk_study="'.$pacsid.'"';
-			mysql_select_db('teleraddb');
-			$retval = mysql_query( $sql, $conn );
-			$row1 = mysql_fetch_array($retval, MYSQL_ASSOC);
-			if(empty($row1)) {
-				
-				$sql1 = "INSERT INTO study_table (fk_client_patient, fk_study) VALUES ('".$cppid."','".$pacsid."')";
-				//echo $sql1;
-				mysql_query( $sql1, $conn );
-			}
-		}
-	}
-	mysql_close($conn);
-	if($count == $total && $total != 0) {
-		//echo '<script language="javascript">document.getElementById("information").innerHTML="All files uploaded successfully"</script>';
-		echo '<div class="alert alert-success" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Well done! You have successfully uploaded all the files</div>';
-	} else {
-		//echo '<script language="javascript">document.getElementById("information").innerHTML=""</script>';
-		echo '<div class="alert alert-warning" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Warning! Only '.$count.' out of '.$total.' completed</div>';
-	}
-}
+include('functions.php');
+include('requestconfig.php');
+include('fileupload.php');
 ?>
 <br>
 <div id="progressss" class="progress progress-striped active" style="display:none;"><div id="barr_upload" class="progress-bar progress-bar-success" 
@@ -335,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 </div>
 <button type="submit" class="btn btn-primary" form="myFormUpload" value="Upload Files">Upload</button>
 </form>
-<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
 </div>
 </div>
 </div>
@@ -360,9 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 </div>
 </div>
 <br>
-<?php
-// echo 'counter = '.$counter.'<br>';
-?>
+
 <!-- Study Table Starts here -->
 <?php
 $conn = mysql_connect('localhost:3306','root','root');
@@ -499,22 +199,15 @@ echo '</table>';
 			  // location.reload("true");
 			  document.getElementById(mess11).innerHTML=inht;
          }
+    });
 });
- });
 </script>
 
 <script type="text/javascript">
 $(document).ready(function() {
     $('#studyTable').DataTable();
 } );
- </script>
- 
-<!--  <script type="text/javascript">
-$(document).on("click", ".open-MyModal", function () {
-     var myId = $(this).data('row-id');
-     $(".modal-body #pkID").val( myId );
-});
- </script> -->
+</script>
  
 <script type="text/javascript">
 $('#myModal').on('show.bs.modal', function(e) {
