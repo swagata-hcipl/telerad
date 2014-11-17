@@ -14,7 +14,7 @@
 include('functions.php');
 echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
 echo '<h1>'.getNameByGateway($_SESSION['gateway']).'</h1>';
-echo '<h1>'.$_SESSION['gateway'].'</h1>';
+// echo '<h1>'.$_SESSION['gateway'].'</h1>';
 echo '<br>';
 $conn = new mysqli("localhost","root","root","teleraddb");
 $clientID = getIdByGateway($_SESSION['gateway']);
@@ -30,7 +30,7 @@ while($row = $result->fetch_object())
 		echo '<td id = "dob'.$row1->id.'">'.$row1->dob.'</td>';
 		$gender = $row1->gender==1 ? "Male":"Female";
 		echo '<td>'.$gender.'</td>';
-		echo '<td id = "cmnt'.$row1->id.'"><button id = "'.$row1->id.'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'.$row1->name.'" data-add1="'.$row1->address1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>';
+		echo '<td id = "cmnt'.$row1->id.'"><button id = "'.$row1->id.'" class="open-MyModal btn btn-primary" data-toggle="modal" data-name="'.$row1->name.'" data-add1="'.$row1->address1.'" data-add2="'.$row1->address2.'" data-dob="'.$row1->dob.'" data-pincode="'.$row1->pincode.'" data-row-id="'.$row1->id.'" data-target="#myModal">Edit</button></td>';
 		echo '<td><form action="upload.php" method="POST"><input type="hidden" name="patientID" value="'.$row1->id.'"/><button class="btn btn-primary">Studies</button></form></td>';
 		echo '</tr>';
 	}
@@ -79,6 +79,11 @@ while($row = $result->fetch_object())
 			<td style="width:40%"><label for="editadd2">Address2</label></td>
 			<td><input class="form-control" id="editadd2" type="text" name="editadd2"/></td>
 			</tr>
+            <tr>
+			<td style="width:10%"></td>
+			<td style="width:40%"><label for="editpincode">Pincode</label></td>
+			<td><input class="form-control" id="editpincode" type="text" name="editpincode" maxlength="6"/></td>
+			</tr>
 			</div>
 			</tbody>
 			</table>
@@ -102,13 +107,14 @@ while($row = $result->fetch_object())
   var mess2 = document.getElementById("editDOB").value;
   var mess3 = document.getElementById("editadd1").value;
   var mess4 = document.getElementById("editadd2").value;
+  var mess5 = document.getElementById("editpincode").value;
   var str = "cmnt";
   var str1 = "name";
   var str2 = "dob";
   var mess11 = str.concat(mess1);
   var mess22 = str1.concat(mess1);
   var mess33 = str2.concat(mess1);
-  var inht = "<button id = \"".concat(mess1,"\" class=\"open-MyModal btn btn-primary\" data-toggle=\"modal\" data-name=\"",mess,"\" data-add1=\"",mess3,"\" data-add2=\"",mess4,"\" data-dob=\"",mess2,"\" data-row-id=\"",mess1,"\"  data-target=\"#myModal\">Edit</button>");
+  var inht = "<button id = \"".concat(mess1,"\" class=\"open-MyModal btn btn-primary\" data-toggle=\"modal\" data-name=\"",mess,"\" data-add1=\"",mess3,"\" data-add2=\"",mess4,"\" data-pincode=\"",mess5,"\" data-dob=\"",mess2,"\" data-row-id=\"",mess1,"\"  data-target=\"#myModal\">Edit</button>");
   // var str1 = "	<button id = "'.$row['id'].'" class="open-MyModal btn btn-primary btn-xs pull-right" data-toggle="modal" data-id="'.$row['id'].'" data-target="#myModal">Edit</button>";
   $.ajax({
          data: data,
@@ -136,6 +142,8 @@ $('#myModal').on('show.bs.modal', function(e) {
     $(e.currentTarget).find('input[id="editadd1"]').val(comm);
 	var comm = $(e.relatedTarget).data('add2');
     $(e.currentTarget).find('input[id="editadd2"]').val(comm);
+    var comm = $(e.relatedTarget).data('pincode');
+    $(e.currentTarget).find('input[id="editpincode"]').val(comm);
     var bookId = $(e.relatedTarget).data('row-id');
     $(e.currentTarget).find('input[id="pkID"]').val(bookId);
 });
@@ -184,7 +192,7 @@ $('#myModal').on('show.bs.modal', function(e) {
 			<tr>
 			<td style="width:10%"></td>
 			<td style="width:40%"><label for="patientAddress1">Address1</label></td>
-			<td><input class="form-control" id="patientAddress1" type="text" name="patientAddress1"/></td>
+			<td><input class="form-control" id="patientAddress1" type="text" name="patientAddress1"  maxlength="30" required/></td>
 			</tr>
 			<tr>
 			<td style="width:10%"></td>

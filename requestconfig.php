@@ -3,6 +3,7 @@
 if(!isset($_SESSION['patientID']) && isset($_POST['pid'])) {
 $gateway = $_POST['gateway'];
 $patientID = $_POST['pid'];
+$patientName = $_POST['pName'];
 $conn = new mysqli("localhost","root","root","teleraddb");
 $sql = "SELECT type FROM client_table WHERE gateway='$gateway'";
 $result = $conn->query($sql);
@@ -16,7 +17,7 @@ if($gatewayType == 2) {
 	session_start();
 	if(!$result->num_rows) {
 		// echo "new emr patient";
-		$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, datetime, exit_id) VALUES ('$patientID', '$patientID', '1990-01-01', '11', '$datetime', '$patientID')";
+		$sql = "INSERT INTO patient_table (patient_id, name, dob, gender, datetime, exit_id) VALUES ('$patientID', '$patientName', '1990-01-01', '11', '$datetime', '$patientID')";
 		$result = $conn->query($sql);
 		if($result) {
 			// echo 'successful';
@@ -24,7 +25,7 @@ if($gatewayType == 2) {
 			$result = $conn->query($sql);
 			$row = $result->fetch_object();
 			$patient_id = $gateway.$row->id;
-			echo $patient_id;
+			// echo $patient_id;
 			$sql="UPDATE patient_table SET patient_id ='$patient_id' WHERE id='$row->id'";
 			$result = $conn->query($sql);
 			if($result) {
@@ -59,15 +60,17 @@ if($gatewayType == 2) {
 		$row = $result->fetch_object();
 		$_SESSION['patientID'] = $row->patient_id;
 	}
-	echo '<a href="emrexit.php" id="registerLink" class="btn btn-primary  pull-right">Exit</a>';
+	// echo '<a href="emrexit.php" id="registerLink" class="btn btn-primary  pull-right">Exit</a>';
 }
 
 } else {
 	include('session.php');
 	//include('session2.php');
-	echo '<a href="profile.php" id="registerLink" class="btn btn-primary btn-lg">Patients</a>';
-	echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
+    
+	/*echo '<a href="profile.php" id="registerLink" class="btn btn-primary btn-lg">Patients</a>';
+	echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';*/
 }
+
 if(isset($_POST['patientID'])) {
 // echo "coming from DX clients";
 $patient_table_id = $_POST['patientID'];
@@ -78,7 +81,20 @@ $conn = new mysqli("localhost","root","root","teleraddb");
 	
 $_SESSION['patientID'] = $row->patient_id;
 }
-
+if(isset($_SESSION['patientID'])) {
+    $conn = new mysqli("localhost","root","root","teleraddb");
+    $client = $_SESSION['gateway'];
+    $sql = "SELECT type FROM client_table WHERE gateway='$client'";
+    $result = $conn->query($sql);
+    $row = $result->fetch_object();
+    $gatewayType = $row->type;
+    if($gatewayType == 2) {
+        // echo '<a href="emrexit.php" id="registerLink" class="btn btn-primary  pull-right">Exit</a>';
+    } else {
+        echo '<a href="profile.php" id="registerLink" class="btn btn-primary btn-lg">Patients</a>';
+        echo '<a href="logout.php" id="registerLink" class="btn btn-primary  pull-right">Log out</a>';
+    }
+}
 echo '<div style="clear: both"><h1 style="float: left">'.getNameByGateway($_SESSION['gateway']).'</h1>
                                 <h3 style="float: right">'.getNameByPatientID($_SESSION['patientID']).'</h3></div><br>';
 

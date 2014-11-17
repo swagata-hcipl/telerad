@@ -19,6 +19,8 @@ include('functions.php');
 include('requestconfig.php');
 include('fileupload.php');
 ?>
+</div>
+</div>
 <br>
 <div id="progressss" class="progress progress-striped active" style="display:none;"><div id="barr_upload" class="progress-bar progress-bar-success" 
 	role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%;"></div></div>
@@ -37,7 +39,7 @@ include('fileupload.php');
 </div>
 <button type="submit" class="btn btn-primary" form="myFormUpload" value="Upload Files">Upload</button>
 </form>
-<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="script.js"></script>
 </div>
 </div>
 </div>
@@ -53,16 +55,15 @@ include('fileupload.php');
 <input type="file" name="file[]" id="inputfile1" multiple="" directory="" webkitdirectory="" mozdirectory="">
 </div>
 <button type="submit" class="btn btn-primary" form="myForm1" value="Upload Files">Upload</button>
+<script type="text/javascript" src="script1.js"></script>
 </form>
 </div>
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
 <br>
-
+<div class = "row">
+<div class = "col-md-12">
 <!-- Study Table Starts here -->
 <?php
 $conn = mysql_connect('localhost:3306','root','root');
@@ -70,9 +71,6 @@ $conn = mysql_connect('localhost:3306','root','root');
 	{
 	  die('Could not connect: ' . mysql_error());
 	}
-echo '<div class="container">';
-echo '<div class="row">';
-echo '<div class="col-md-12">';
 $ppid = getIdByPatientID($_SESSION['patientID']);
 $cpid = getIdByGateway($_SESSION['gateway']);
 $sql = 'SELECT id FROM client_patient_table WHERE fk_client="'.$cpid.'" AND fk_patient="'.$ppid.'"';

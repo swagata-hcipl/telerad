@@ -2,7 +2,7 @@
 $total=0;
 $count=0;
 $studyArray = array();
-
+echo '<br><br><br>';
 function dcmsndFucntion($tmpkey,$key, $studyArray) {
 	$cmd_str = 'dcmsnd DCM4CHEE@localhost:11112 ';
 	$cmd_str .= $tmpkey;
@@ -18,7 +18,7 @@ function dcmsndFucntion($tmpkey,$key, $studyArray) {
 		}
 	}
 	else {
-		echo '<div class="alert alert-danger" role="alert">Error in uploading the file to PACS '.$key.'</div>';
+		echo '<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Error in uploading the file to PACS '.$key.'</div>';
 	}
 	GLOBAL $total;
 	GLOBAL $count;
@@ -31,7 +31,7 @@ function dcmsndFucntion($tmpkey,$key, $studyArray) {
 	ob_flush();
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
-	echo '<div class="alert alert-info" role="alert" id="information" style="width"></div>';
+	echo '<div class="alert alert-info" role="alert" id="informationdiv" style="width"><a href="#" class="close" data-dismiss="alert">&times;</a><p id="information"></p></div>';
 	echo '<div id="progresss" class="progress progress-striped active">
     <div id="barr" class="progress-bar progress-bar-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:50%;">
     </div>
@@ -99,8 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 	echo '</script>';*/
 	ob_flush();
 	ob_end_flush();
-	$end_time = microtime('true');
-	$upload_time = $end_time - $start_time;
 	$conn = mysql_connect('localhost:3306','root','root');
 	if(! $conn )
 	{
@@ -131,6 +129,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_FILES['file'])) {
 		}
 	}
 	mysql_close($conn);
+    /*echo '<script language="javascript">';
+	echo 'document.getElementById("informationdiv").innerHTML="<a href="#" class="close" data-dismiss="alert">&times;</a><p id="information">'.$count.'/'.$total.' images(s) processed.</p>"';
+	echo '</script>';*/
 	if($count == $total && $total != 0) {
 		echo '<div class="alert alert-success" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Well done! You have successfully uploaded all the files</div>';
 	} else {
