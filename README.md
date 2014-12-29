@@ -1,3 +1,3 @@
 telerad
 =======
-Now now
+Bye bye
