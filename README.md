@@ -2,6 +2,7 @@ telerad
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Now now
 =======
 Sachu here
@@ -9,3 +10,6 @@ Sachu here
 =======
 Bye bye
 >>>>>>> a584297c11f99da130458578d2523dcd2b7ba4ba
+=======
+hi hi
+>>>>>>> 11c268f45331849d7b5d34d8ba3cd56b9652bdb8
